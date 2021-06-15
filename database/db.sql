@@ -17,7 +17,8 @@ CREATE TABLE users(
     fullname VARCHAR(100) NOT NULL,
     nick VARCHAR(60) NULL,
     logo VARCHAR(30) DEFAULT NULL,
-    profile_type INT(11) NOT NULL,
+    profile_id INT(11) NOT NULL,
     parent_prof INT(11) NOT NULL,
-    PRIMARY KEY id
+    PRIMARY KEY id,
+    CONSTRAINT fk__user_profiles FOREIGN KEY (profile_id) REFERENCES profiles(id),
 );
