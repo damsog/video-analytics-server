@@ -2,3 +2,4 @@ node_modules/
 *.log
 mydatabase_backup.sql
 nohup.out
+.env
