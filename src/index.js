@@ -1,7 +1,7 @@
+require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
-const sequalize = require('../database/index');
-
+require("../models/users");
 
 // initializations
 const app = express();
@@ -17,7 +17,6 @@ app.use(express.json());
 // Global Variables
 
 // Routes
-
 
 
 // Run the server

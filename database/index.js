@@ -10,6 +10,7 @@ const sequelize = new Sequelize(
     }
 );
 
+
 (async () => {
     try {
         await sequelize.authenticate();
@@ -18,5 +19,10 @@ const sequelize = new Sequelize(
         console.error("Unable to connect to the database: ", error);
     }
 })();
+
+sequelize.sync({ force: false })
+  .then(() => {
+    console.log(`Database & tables created!`);
+  });
 
 module.exports = sequelize;
