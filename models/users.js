@@ -1,10 +1,9 @@
-const { DataTypes } = require("sequalize");
-const { Sequelize } = require("sequelize/types");
-const sequalize = require("../database");
+const { DataTypes } = require("sequelize");
+const sequelize = require("../database");
 
-const Users = sequalize.define("Users", {
+const users = sequelize.define("users", {
     id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey:true,
         autoIncrement:true,
     },
@@ -34,4 +33,4 @@ const Users = sequalize.define("Users", {
     }
 });
 
-module.exports = Users;
+module.exports = users;
