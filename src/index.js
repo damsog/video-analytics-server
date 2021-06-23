@@ -2,6 +2,11 @@ require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
 require("../models/users");
+require('../models/profiles');
+require('../models/groups');
+require('../models/coders');
+require('../models/relations');
+require('../models/permits');
 
 // initializations
 const app = express();
