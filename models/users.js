@@ -8,27 +8,28 @@ const users = sequelize.define("users", {
         autoIncrement:true,
     },
     username: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(16),
         allowNull: false,
     },
     password: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(60),
         allowNull: false,
     },
     fullname: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: true,
     },
     nick: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(60),
         allowNull: true,
     },
     logo: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(30),
         allowNull: true,
     },
     time_register: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
         allowNull: false,
     }
 });
