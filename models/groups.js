@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
+const relations = require("./relations");
 const users = require("./users");
 
 const groups = sequelize.define("groups",{
@@ -22,7 +23,5 @@ const groups = sequelize.define("groups",{
         defaultValue: DataTypes.NOW
     }
 });
-
-groups.belongsTo(users, {as: "user_id"});
 
 module.exports = groups;

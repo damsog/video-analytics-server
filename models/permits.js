@@ -16,8 +16,4 @@ const permits = sequelize.define("permits",{
     }
 });
 
-permits.belongsToMany(users, {as: "user_grant_id"});
-permits.belongsToMany(profiles, {as: "profile_grant_id"});
-permits.belongsToMany(users, {as: "user_receive_id"});
-
 module.exports = permits;

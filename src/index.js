@@ -7,7 +7,7 @@ require('../models/groups');
 require('../models/coders');
 require('../models/relations');
 require('../models/permits');
-
+require("../models/associations");
 // initializations
 const app = express();
 

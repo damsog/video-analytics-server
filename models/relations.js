@@ -16,7 +16,4 @@ const relations = sequelize.define("relations",{
     },
 });
 
-relations.belongsToMany(profiles, {as: "profile_id"});
-relations.belongsToMany(groups, {as: "group_id"});
-
 module.exports = relations;

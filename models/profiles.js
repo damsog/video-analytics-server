@@ -1,5 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
+const coders = require("./coders");
+const relations = require("./relations");
 const users = require("./users");
 
 const profiles = sequelize.define("profiles",{
@@ -22,7 +24,5 @@ const profiles = sequelize.define("profiles",{
         allowNull: false
     }
 });
-
-profiles.belongsTo(users, {as: "user_id"});
 
 module.exports = profiles;

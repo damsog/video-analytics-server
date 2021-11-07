@@ -23,6 +23,4 @@ const coders = sequelize.define("coders",{
     }
 });
 
-coders.belongsTo(profiles, {as: "profile_id"});
-
 module.exports = coders;
