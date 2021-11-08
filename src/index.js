@@ -22,7 +22,7 @@ app.use(express.json());
 // Global Variables
 
 // Routes
-app.use('/api/createUser', require('../routes/usersRoutes'));
+app.use('/api/users', require('../routes/usersRoutes'));
 
 // Run the server
 app.listen(app.get('port'), () => {
