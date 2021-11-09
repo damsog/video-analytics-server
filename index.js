@@ -1,13 +1,13 @@
 require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
-require("../models/users");
-require('../models/profiles');
-require('../models/groups');
-require('../models/coders');
-require('../models/relations');
-require('../models/permits');
-require("../models/associations");
+require("./models/users");
+require('./models/profiles');
+require('./models/groups');
+require('./models/coders');
+require('./models/relations');
+require('./models/permits');
+require("./models/associations");
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -26,7 +26,7 @@ const swaggerOptions = {
            }
         ]
     },
-    apis: ["../routes/*.js"]
+    apis: ["./routes/*.js"]
 }
 
 
@@ -51,7 +51,7 @@ app.use(express.json());
 // Global Variables
 
 // Routes
-app.use('/api/users', require('../routes/usersRoutes'));
+app.use('/api/users', require('./routes/usersRoutes'));
 
 // Run the server
 app.listen(app.get('port'), () => {
