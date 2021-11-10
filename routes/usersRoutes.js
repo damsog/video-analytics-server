@@ -2,6 +2,136 @@ const express = require("express");
 const router = express.Router();
 const usersController = require('../controllers/usersController');
 
+// api/users
+
+/**
+ * @swagger
+ * /api/users:
+ *  get:
+ *      summary: Return all users
+ *      tags: [Users]
+ *      responses:
+ *          200:
+ *              description: list of all users
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/user'
+ *                                
+ */
+router.get('/', usersController.getAllUsers);
+
+/**
+ * @swagger
+ * /api/users/{id}:
+ *  get:
+ *      summary: Return user by id
+ *      tags: [Users]
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: user id
+ *      responses:
+ *          200:
+ *              description: list of all users
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/user'
+ *          404:
+ *              description: User not found
+ *                                
+ */
+router.get('/:id', usersController.getUserById);
+
+/**
+ * @swagger
+ * /api/users:
+ *  post:
+ *      summary: Create a new user
+ *      tags: [Users]
+ *      requestBody:
+ *          required: true
+ *          content: 
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/user'
+ *      responses:
+ *          200:
+ *              description: list of all users
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/user'
+ *                                
+ */
+router.post('/', usersController.createUser);
+
+/**
+ * @swagger
+ * /api/users/{id}:
+ *  put:
+ *      summary: Updates user
+ *      tags: [Users]
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: user id
+ *      requestBody:
+ *          required: true
+ *          content: 
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/user'
+ *      responses:
+ *          200:
+ *              description: If operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/user'
+ *          404:
+ *              description: User not found
+ *                                
+ */
+router.put('/:id', usersController.updateUserById);
+
+/**
+ * @swagger
+ * /api/users/{id}:
+ *  delete:
+ *      summary: Deletes a user by id
+ *      tags: [Users]
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: user id
+ *      responses:
+ *          200:
+ *              description: If operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: string
+ *          404:
+ *              description: User not found
+ *                                
+ */
+router.delete('/:id', usersController.deleteUserById);
+
 /**
  * @swagger
  * components:
@@ -40,29 +170,5 @@ const usersController = require('../controllers/usersController');
  *                  type: string
  *                  description: time
 */
-
-// api/users
-router.post('/', usersController.createUser);
-
-/**
- * @swagger
- * /api/users:
- *  get:
- *      summary: Return all users
- *      responses:
- *          200:
- *              description: list of all users
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: array
- *                          items:
- *                              $ref: '#/components/schemas/user'
- *                                
- */
-router.get('/', usersController.getAllUsers);
-router.get('/:id', usersController.getUserById);
-router.put('/:id', usersController.updateUserById);
-router.delete('/:id', usersController.deleteUserById);
 
 module.exports = router;
