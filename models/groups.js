@@ -3,7 +3,7 @@ const sequelize = require("../database");
 const relations = require("./relations");
 const users = require("./users");
 
-const groups = sequelize.define("groups",{
+const groups = sequelize.define("profile_groups",{
     id: {
         type: DataTypes.INTEGER,
         primaryKey:true,

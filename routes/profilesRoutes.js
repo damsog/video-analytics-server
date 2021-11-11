@@ -157,6 +157,7 @@ router.delete('/:id', profilesController.deleteProfileById);
 router.get('/byuId/:userId', profilesController.getProfilesByUserId);
 
 // TODO: Endpoint to list profiles by group
+// TODO: Fix foreign keys on table relations
 
 /**
  * @swagger
