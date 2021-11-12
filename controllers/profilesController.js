@@ -75,10 +75,11 @@ exports.getProfileById = async (req,res) => {
 // Controller to update a profile info
 exports.updateProfileById = async (req,res) => {
     try {
-        const { fullname, nickname } = req.body;
+        const { fullname, nickname, userId } = req.body;
         const response = await profiles.update({
             fullname: fullname,
-            nickname, nickname
+            nickname: nickname,
+            userId: userId
         }, {
             where: {id: req.params.id }
         }).then((data) => {

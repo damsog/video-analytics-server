@@ -53,6 +53,8 @@ app.use(express.json());
 // Routes
 app.use('/api/users', require('./routes/usersRoutes'));
 app.use('/api/profiles', require('./routes/profilesRoutes'));
+app.use('/api/groups', require('./routes/groupsRoutes'));
+app.use('/api/coders', require('./routes/codersRoutes'));
 
 // Run the server
 app.listen(app.get('port'), () => {

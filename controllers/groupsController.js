@@ -5,7 +5,8 @@ exports.createGroup = async (req,res) => {
     try {
         const response = await groups.create({
                 name: req.body.name,
-                dataset_route: req.body.dataset_route
+                dataset_route: req.body.dataset_route,
+                userId: req.body.userId
         }).then((data) => {
             const res = {
                 success: true,
@@ -72,10 +73,11 @@ exports.getGroupById = async (req,res) => {
 // Controller to update a profile info
 exports.updateGroupById = async (req,res) => {
     try {
-        const { name, dataset_route } = req.body;
+        const { name, dataset_route, userId } = req.body;
         const response = await groups.update({
             fullname: name,
-            dataset_route: dataset_route
+            dataset_route: dataset_route,
+            userId: userId
         }, {
             where: {id: req.params.id }
         }).then((data) => {
