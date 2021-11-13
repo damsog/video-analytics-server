@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const profilesController = require("../controllers/profilesController");
+const relationsController = require("../controllers/relationsController");
 
+// /api/profiles
 /**
  * @swagger
  * /api/profiles:
@@ -156,7 +158,32 @@ router.delete('/:id', profilesController.deleteProfileById);
  */
 router.get('/byuId/:userId', profilesController.getProfilesByUserId);
 
-// TODO: Endpoint to list profiles by group
+/**
+ * @swagger
+ * /api/profiles/bygId/{groupId}:
+ *  get:
+ *      summary: Returns all the profiles that a group contains
+ *      tags: [Profiles]
+ *      parameters:
+ *          -   in: path
+ *              name: groupId
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: group id
+ *      responses:
+ *          200:
+ *              description: list of all profiles for a group
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/profile'
+ *                                
+ */
+router.get('/bygId/:groupId', relationsController.getProfilesByGroup);
+
 // TODO: Fix foreign keys on table relations
 
 /**

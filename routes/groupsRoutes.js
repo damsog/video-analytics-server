@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const groupsController = require("../controllers/groupsController");
+const relationsController = require("../controllers/relationsController");
 
 // /api/groups
 /**
@@ -156,7 +157,32 @@ router.delete('/:id', groupsController.deleteGroupById);
  *                                
  */
 router.get('/byuId/:userId', groupsController.getGroupsByUserId);
-//router.get('/bpid/:profileId'); //?
+
+/**
+ * @swagger
+ * /api/groups/bypId/{profileId}:
+ *  get:
+ *      summary: Returns all the groups a profile belongs to
+ *      tags: [Groups]
+ *      parameters:
+ *          -   in: path
+ *              name: profileId
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: profile id
+ *      responses:
+ *          200:
+ *              description: list of groups a profile belongs to
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/group'
+ *                                
+ */
+router.get('/bypId/:profileId', relationsController.getGroupsByProfile);
 
 /**
  * @swagger

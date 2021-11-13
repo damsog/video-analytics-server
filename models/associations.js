@@ -19,7 +19,8 @@ coders.belongsTo(profiles);
 
 relations.belongsTo(profiles);
 relations.belongsTo(groups);
-
+profiles.hasMany(relations);
+groups.hasMany(relations);
 
 
 

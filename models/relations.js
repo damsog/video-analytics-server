@@ -11,8 +11,8 @@ const relations = sequelize.define("relations",{
     },
     time_creation: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.DATE,
-        allowNull: DataTypes.NOW
+        defaultValue: DataTypes.NOW,
+        allowNull: false
     },
 });
 
