@@ -5,7 +5,7 @@ exports.createRelation = async (req,res) => {
     try {
         const response = await relations.create({
             profileId: req.body.profileId,
-            groupId: req.body.groupId
+            profileGroupId: req.body.groupId
         }).then((data) => {
             const res = {
                 success: true,
@@ -30,7 +30,7 @@ exports.createRelation = async (req,res) => {
 exports.getProfilesByGroup = async (req,res) => {
     try {
         const response = await relations.findAll({
-            where: {groupId: req.params.groupId}
+            where: {profileGroupId: req.params.groupId}
         }).then((data) => {
             const res = {
                 success: true,
@@ -79,7 +79,7 @@ exports.deleteRelation = async (req,res) => {
     try {
         const response = await relations.destroy({
             where: {
-                groupId: req.body.groupId,
+                profileGroupId: req.body.groupId,
                 profileId: req.body.profileId
             }
         }).then((data) => {

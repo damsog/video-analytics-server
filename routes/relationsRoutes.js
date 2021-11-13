@@ -4,7 +4,7 @@ const relationsController = require("../controllers/relationsController");
 
 /**
  * @swagger
- * /api/relationss:
+ * /api/relations:
  *  post:
  *      summary: Create a new group-profile association
  *      tags: [Relations]
@@ -29,7 +29,7 @@ router.post('/', relationsController.createRelation);
 
 /**
  * @swagger
- * /api/relationss:
+ * /api/relations:
  *  delete:
  *      summary: Deletes a group-profile relation
  *      tags: [Relations]
