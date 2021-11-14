@@ -1,11 +1,34 @@
+const utils = require("../lib/utils");
 const users = require("../models/users");
+const jwt = require('jsonwebtoken');
 
 // controller to create a new user
 exports.createUser = async (req,res) => {
     try {
+        const { username, password, fullname, nick, logo } = req.body;
+
+        // validates if username and password are not empty
+        if(!(username && password)){
+            res.status(400).send("At least username and password are required");
+        }
+
+        // Validates if the username is aleady in use
+        const olduser = await users.findOne({where: {username: username }});
+        if (olduser) {
+            return res.status(409).send("Username is already in use");
+        }
+
+        // Encrypting password
+        const encryptedPassword = await utils.encryptPassword(password);
+        console.log(password, encryptedPassword);
+
+        // Creating user
         const response = await users.create({
-            username: req.body.username,
-            password: req.body.password,
+            username: username,
+            password: encryptedPassword,
+            fullname: fullname,
+            nick: nick,
+            logo: logo
             
         }).then(function(data){
             const res = {
@@ -19,8 +42,15 @@ exports.createUser = async (req,res) => {
             return res;
         });
 
+        // Creating access token
+        const token = jwt.sign(
+            { user_id: response.data.id, username },
+            process.env.TOKEN_KEY,
+            { expiresIn: "60000"}
+        );
+        response.token = token;
+
         res.json(response);
-        
     } catch (e) {
         console.log(e);
         res.status(500).send("There was an error");
