@@ -57,6 +57,42 @@ exports.createUser = async (req,res) => {
     }
 }
 
+// User Login
+exports.getAccess = async (req,res) => {
+    try {
+        const { username, password } = req.body;
+
+        // Validates if username and password were given
+        if(!( username && password )) {
+            return res.status(400).send("Username and password are required");
+        }
+
+        // Validates if user exists
+        const user = await users.findOne({where: {username: username}});
+
+        if(user && (await utils.matchedPassword(password, user.password) )){
+
+            // With access given, we create a token
+            const token = jwt.sign(
+                { user_id: user.id, username },
+                process.env.TOKEN_KEY,
+                {expiresIn: "60000"}
+            );
+
+            // Adds token to the response
+            user.dataValues.token = token;
+
+            res.status(200).json(user);
+
+        }else{
+            res.status(400).send("Invalid Credentials");
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(500).send("There was an error");
+    }
+}
+
 // controller to get the list of all users from the database
 exports.getAllUsers = async (req, res) => {
     try {
