@@ -10,6 +10,11 @@ const usersController = require('../controllers/usersController');
  *  get:
  *      summary: Return all users
  *      tags: [Users]
+ *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *      responses:
  *          200:
  *              description: list of all users
@@ -30,6 +35,10 @@ router.get('/', usersController.getAllUsers);
  *      summary: Return user by id
  *      tags: [Users]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -55,6 +64,11 @@ router.get('/:id', usersController.getUserById);
  *  post:
  *      summary: Create a new user
  *      tags: [Users]
+ *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *      requestBody:
  *          required: true
  *          content: 
@@ -81,6 +95,10 @@ router.post('/', usersController.createUser);
  *      summary: Updates user
  *      tags: [Users]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -113,6 +131,10 @@ router.put('/:id', usersController.updateUserById);
  *      summary: Deletes a user by id
  *      tags: [Users]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: id
  *              schema:

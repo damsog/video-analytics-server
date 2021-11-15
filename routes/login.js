@@ -4,7 +4,7 @@ const usersController = require('../controllers/usersController');
 
 /**
  * @swagger
- * /api/users/login:
+ * /api/login:
  *  post:
  *      summary: Login
  *      tags: [Users]

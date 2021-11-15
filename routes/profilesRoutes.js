@@ -10,6 +10,11 @@ const relationsController = require("../controllers/relationsController");
  *  post:
  *      summary: Create a new profile associating it with a user
  *      tags: [Profiles]
+ *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *      requestBody:
  *          required: true
  *          content: 
@@ -35,6 +40,11 @@ router.post('/', profilesController.createProfile);
  *  get:
  *      summary: Return all profiles
  *      tags: [Profiles]
+ *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *      responses:
  *          200:
  *              description: list of all profiles
@@ -55,6 +65,10 @@ router.get('/', profilesController.getAllProfiles);
  *      summary: Return a profile given its id
  *      tags: [Profiles]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -81,6 +95,10 @@ router.get('/:id', profilesController.getProfileById);
  *      summary: Updates profile info
  *      tags: [Profiles]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -113,6 +131,10 @@ router.put('/:id', profilesController.updateProfileById);
  *      summary: Deletes a profile given an id
  *      tags: [Profiles]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -139,6 +161,10 @@ router.delete('/:id', profilesController.deleteProfileById);
  *      summary: Return all profiles for a user
  *      tags: [Profiles]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: userId
  *              schema:
@@ -165,6 +191,10 @@ router.get('/byuId/:userId', profilesController.getProfilesByUserId);
  *      summary: Returns all the profiles that a group contains
  *      tags: [Profiles]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string 
  *          -   in: path
  *              name: groupId
  *              schema:

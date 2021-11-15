@@ -8,6 +8,11 @@ const codersController = require('../controllers/codersController');
  *  post:
  *      summary: Create a new coder associated to a profile
  *      tags: [Coders]
+ *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *      requestBody:
  *          required: true
  *          content: 
@@ -33,6 +38,11 @@ router.post('/', codersController.createCoder);
  *  get:
  *      summary: Returns all coders
  *      tags: [Coders]
+ *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *      responses:
  *          200:
  *              description: list of every single coder
@@ -53,6 +63,10 @@ router.get('/', codersController.getAllCoders);
  *      summary: Return a coder given its id
  *      tags: [Coders]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -79,6 +93,10 @@ router.get('/:id', codersController.getCoderById);
  *      summary: Updates coder info
  *      tags: [Coders]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -111,6 +129,10 @@ router.put('/:id', codersController.updateCoderById);
  *      summary: Deletes a coder given an id
  *      tags: [Coders]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -137,6 +159,10 @@ router.delete('/:id', codersController.deleteCoderById);
  *      summary: Return all coders for a profile
  *      tags: [Coders]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: profileId
  *              schema:

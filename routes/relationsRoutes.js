@@ -8,6 +8,11 @@ const relationsController = require("../controllers/relationsController");
  *  post:
  *      summary: Create a new group-profile association
  *      tags: [Relations]
+ *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *      requestBody:
  *          required: true
  *          content: 
@@ -33,6 +38,11 @@ router.post('/', relationsController.createRelation);
  *  delete:
  *      summary: Deletes a group-profile relation
  *      tags: [Relations]
+ *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *      requestBody:
  *          required: true
  *          content: 

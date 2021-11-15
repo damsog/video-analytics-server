@@ -10,6 +10,11 @@ const relationsController = require("../controllers/relationsController");
  *  post:
  *      summary: Create a new group associating it with a user
  *      tags: [Groups]
+ *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *      requestBody:
  *          required: true
  *          content: 
@@ -35,6 +40,11 @@ router.post('/', groupsController.createGroup);
  *  get:
  *      summary: Returns all groups
  *      tags: [Groups]
+ *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *      responses:
  *          200:
  *              description: list of every group
@@ -55,6 +65,10 @@ router.get('/', groupsController.getAllGroups);
  *      summary: Return a group given its id
  *      tags: [Groups]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -81,6 +95,10 @@ router.get('/:id', groupsController.getGroupById);
  *      summary: Updates group info
  *      tags: [Groups]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -113,6 +131,10 @@ router.put('/:id', groupsController.updateGroupById);
  *      summary: Deletes a group given an id
  *      tags: [Groups]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -139,6 +161,10 @@ router.delete('/:id', groupsController.deleteGroupById);
  *      summary: Return all groups for a user
  *      tags: [Groups]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: userId
  *              schema:
@@ -165,6 +191,10 @@ router.get('/byuId/:userId', groupsController.getGroupsByUserId);
  *      summary: Returns all the groups a profile belongs to
  *      tags: [Groups]
  *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
  *          -   in: path
  *              name: profileId
  *              schema:

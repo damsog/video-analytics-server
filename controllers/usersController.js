@@ -76,7 +76,7 @@ exports.getAccess = async (req,res) => {
             const token = jwt.sign(
                 { user_id: user.id, username },
                 process.env.TOKEN_KEY,
-                {expiresIn: "60000"}
+                {expiresIn: "1h"}
             );
 
             // Adds token to the response
