@@ -10,6 +10,7 @@ require('./models/permits');
 require("./models/associations");
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const auth = require("./lib/auth");
 
 // SwaggerDoc condifguration
 const swaggerOptions = {
@@ -51,11 +52,12 @@ app.use(express.json());
 // Global Variables
 
 // Routes
-app.use('/api/users', require('./routes/usersRoutes'));
-app.use('/api/profiles', require('./routes/profilesRoutes'));
-app.use('/api/groups', require('./routes/groupsRoutes'));
-app.use('/api/coders', require('./routes/codersRoutes'));
-app.use('/api/relations', require('./routes/relationsRoutes'));
+app.use('/api/login', require('./routes/login'));
+app.use('/api/users', auth, require('./routes/usersRoutes'));
+app.use('/api/profiles', auth, require('./routes/profilesRoutes'));
+app.use('/api/groups', auth, require('./routes/groupsRoutes'));
+app.use('/api/coders', auth, require('./routes/codersRoutes'));
+app.use('/api/relations', auth, require('./routes/relationsRoutes'));
 
 
 // Run the server
