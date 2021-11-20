@@ -1,4 +1,4 @@
-const coders = require('../models/coders');
+const images = require('../models/images');
 const multer = require('multer');
 const fs = require('fs');
 
@@ -21,7 +21,7 @@ const upload = multer({
     }
 });
 
-exports.uploadImage = (req, res, next) => {
+exports.saveImage = (req, res, next) => {
     console.log("Uploading image to profile " + req.params.profilename);
     var dir = './resources/user_data/' + req.params.username + '/' + req.params.profilename ;
     
@@ -43,12 +43,11 @@ exports.uploadImage = (req, res, next) => {
 
 }
 
-// Controller to create a new coder registry
-exports.createCoder = async (req,res) => {
+// Controller to create a new image registry
+exports.createImageRecord = async (req,res) => {
     try {
-        const response = await coders.create({
+        const response = await images.create({
             coder_img_route: req.body.coder_img_route,
-            coder: req.body.coder,
             profileId: req.body.profileId
         }).then((data) => {
             const res = {
@@ -59,6 +58,7 @@ exports.createCoder = async (req,res) => {
             return res;
         }).catch((error) => {
             const res = { success: false, error: error }
+            return res;
         });              
         
         res.json(response);
@@ -68,10 +68,10 @@ exports.createCoder = async (req,res) => {
     }
 }
 
-// Controller to get a list of all coders
-exports.getAllCoders = async (req,res) => {
+// Controller to get a list of all images
+exports.getAllImages = async (req,res) => {
     try {
-        const response = await coders.findAll().then((data) => {
+        const response = await images.findAll().then((data) => {
             const res = {
                 success: true,
                 message: "Query executed succesfully",
@@ -91,10 +91,10 @@ exports.getAllCoders = async (req,res) => {
     }
 }
 
-// Controller to get a coder info given an id
-exports.getCoderById = async (req,res) => {
+// Controller to get an image info given an id
+exports.getImageById = async (req,res) => {
     try {
-        const response = await coders.findByPk(req.params.id).then((data) => {
+        const response = await images.findByPk(req.params.id).then((data) => {
             const res = {
                 success: true,
                 message: "Query executed successfully",
@@ -113,10 +113,10 @@ exports.getCoderById = async (req,res) => {
 }
 
 // Controller to update a profile info
-exports.updateCoderById = async (req,res) => {
+exports.updateImageById = async (req,res) => {
     try {
         const { coder_img_route, coder, profileId } = req.body;
-        const response = await coders.update({
+        const response = await images.update({
             coder_img_route: coder_img_route,
             coder: coder,
             profileId: profileId
@@ -142,9 +142,9 @@ exports.updateCoderById = async (req,res) => {
 }
 
 // Controller to destroy a coder given an id
-exports.deleteCoderById = async (req,res) => {
+exports.deleteImageById = async (req,res) => {
     try {
-        const response = await coders.destroy({
+        const response = await images.destroy({
                 where: {id: req.params.id}    
         }).then((data) => {
             const res = {
@@ -166,9 +166,9 @@ exports.deleteCoderById = async (req,res) => {
 }
 
 // Controller to get the list of groups that belong to a user
-exports.getCodersByProfileId = async (req,res) => {
+exports.getImagesByProfileId = async (req,res) => {
     try {
-        const response = await coders.findAll({
+        const response = await images.findAll({
             where: {
                 profileId: req.params.profileId
             }    

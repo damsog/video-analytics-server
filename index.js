@@ -4,7 +4,7 @@ const morgan = require('morgan');
 require("./models/users");
 require('./models/profiles');
 require('./models/groups');
-require('./models/coders');
+require('./models/images');
 require('./models/relations');
 require('./models/permits');
 require("./models/associations");
@@ -56,7 +56,7 @@ app.use('/api/login', require('./routes/login'));
 app.use('/api/users', auth, require('./routes/usersRoutes'));
 app.use('/api/profiles', auth, require('./routes/profilesRoutes'));
 app.use('/api/groups', auth, require('./routes/groupsRoutes'));
-app.use('/api/coders', auth, require('./routes/codersRoutes'));
+app.use('/api/images', auth, require('./routes/imagesRoutes'));
 app.use('/api/relations', auth, require('./routes/relationsRoutes'));
 
 

@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const codersController = require('../controllers/codersController');
+const imagesController = require('../controllers/imagesController');
 
-router.post('/upload_image/:username/:profilename', codersController.uploadImage);
+router.post('/saveimage/:username/:profilename', imagesController.saveImage);
 
 /**
  * @swagger
- * /api/coders:
+ * /api/images:
  *  post:
- *      summary: Create a new coder associated to a profile
- *      tags: [Coders]
+ *      summary: Create a new Image associated to a profile
+ *      tags: [Images]
  *      parameters:
  *          -   in: header
  *              name: x-access-token
@@ -20,26 +20,26 @@ router.post('/upload_image/:username/:profilename', codersController.uploadImage
  *          content: 
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/coder'
+ *                      $ref: '#/components/schemas/image'
  *      responses:
  *          200:
- *              description: Coder just created
+ *              description: Image just created
  *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
  *                          items:
- *                              $ref: '#/components/schemas/coder'
+ *                              $ref: '#/components/schemas/image'
  *                                
  */
-router.post('/', codersController.createCoder);
+router.post('/', imagesController.createImageRecord);
 
 /**
  * @swagger
- * /api/coders:
+ * /api/images:
  *  get:
- *      summary: Returns all coders
- *      tags: [Coders]
+ *      summary: Returns all images
+ *      tags: [Images]
  *      parameters:
  *          -   in: header
  *              name: x-access-token
@@ -47,23 +47,23 @@ router.post('/', codersController.createCoder);
  *                  type: string
  *      responses:
  *          200:
- *              description: list of every single coder
+ *              description: list of every single image
  *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
  *                          items:
- *                              $ref: '#/components/schemas/coder'
+ *                              $ref: '#/components/schemas/image'
  *                                
  */
-router.get('/', codersController.getAllCoders);
+router.get('/', imagesController.getAllImages);
 
 /**
  * @swagger
- * /api/coders/{id}:
+ * /api/images/{id}:
  *  get:
- *      summary: Return a coder given its id
- *      tags: [Coders]
+ *      summary: Return an image given its id
+ *      tags: [Images]
  *      parameters:
  *          -   in: header
  *              name: x-access-token
@@ -83,17 +83,17 @@ router.get('/', codersController.getAllCoders);
  *                      schema:
  *                          type: array
  *                          items:
- *                              $ref: '#/components/schemas/coder'
+ *                              $ref: '#/components/schemas/image'
  *                                
  */
-router.get('/:id', codersController.getCoderById);
+router.get('/:id', imagesController.getImageById);
 
 /**
  * @swagger
- * /api/coders/{id}:
+ * /api/images/{id}:
  *  put:
  *      summary: Updates coder info
- *      tags: [Coders]
+ *      tags: [Images]
  *      parameters:
  *          -   in: header
  *              name: x-access-token
@@ -104,32 +104,32 @@ router.get('/:id', codersController.getCoderById);
  *              schema:
  *                  type: string
  *              required: true
- *              description: Coder id
+ *              description: Image id
  *      requestBody:
  *          required: true
  *          content: 
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/coder'
+ *                      $ref: '#/components/schemas/image'
  *      responses:
  *          200:
  *              description: If operation was succesful
  *              content:
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/schemas/coder'
+ *                          $ref: '#/components/schemas/image'
  *          404:
  *              description: Coder not found
  *                                
  */
-router.put('/:id', codersController.updateCoderById);
+router.put('/:id', imagesController.updateImageById);
 
 /**
  * @swagger
- * /api/coders/{id}:
+ * /api/images/{id}:
  *  delete:
- *      summary: Deletes a coder given an id
- *      tags: [Coders]
+ *      summary: Deletes an image given an id
+ *      tags: [Images]
  *      parameters:
  *          -   in: header
  *              name: x-access-token
@@ -140,7 +140,7 @@ router.put('/:id', codersController.updateCoderById);
  *              schema:
  *                  type: string
  *              required: true
- *              description: Coder id
+ *              description: Image id
  *      responses:
  *          200:
  *              description: Operation was succesful
@@ -149,17 +149,17 @@ router.put('/:id', codersController.updateCoderById);
  *                      schema:
  *                          type: string
  *          404:
- *              description: Coder not found
+ *              description: Image not found
  *                                
  */
-router.delete('/:id', codersController.deleteCoderById);
+router.delete('/:id', imagesController.deleteImageById);
 
 /**
  * @swagger
- * /api/coders/bypId/{profileId}:
+ * /api/images/bypId/{profileId}:
  *  get:
- *      summary: Return all coders for a profile
- *      tags: [Coders]
+ *      summary: Return all images for a profile
+ *      tags: [Images]
  *      parameters:
  *          -   in: header
  *              name: x-access-token
@@ -179,20 +179,19 @@ router.delete('/:id', codersController.deleteCoderById);
  *                      schema:
  *                          type: array
  *                          items:
- *                              $ref: '#/components/schemas/coder'
+ *                              $ref: '#/components/schemas/image'
  *                                
  */
-router.get('/bypId/:profileId', codersController.getCodersByProfileId);
+router.get('/bypId/:profileId', imagesController.getImagesByProfileId);
 
 /**
  * @swagger
  * components:
  *  schemas:
- *      coder:
+ *      image:
  *          type: object
  *          required:
  *              - coder_img_route
- *              - coder
  *          properties:
  *              id:
  *                  type: int

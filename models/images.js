@@ -1,20 +1,19 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
-const profiles = require("./profiles");
 
-const coders = sequelize.define("coders",{
+const images = sequelize.define("images",{
     id: {
         type: DataTypes.INTEGER,
         primaryKey:true,
         autoIncrement:true,
     },
     coder_img_route: {
-        type: DataTypes.STRING(60),
+        type: DataTypes.STRING(120),
         allowNull: false
     },
     coder: {
         type: DataTypes.STRING(60),
-        allowNull: false
+        allowNull: true
     },
     time_creation: {
         type: DataTypes.DATE,
@@ -23,4 +22,4 @@ const coders = sequelize.define("coders",{
     }
 });
 
-module.exports = coders;
+module.exports = images;

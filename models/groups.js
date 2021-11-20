@@ -1,7 +1,5 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
-const relations = require("./relations");
-const users = require("./users");
 
 const groups = sequelize.define("profile_groups",{
     id: {
