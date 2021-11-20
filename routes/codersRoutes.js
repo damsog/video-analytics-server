@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const codersController = require('../controllers/codersController');
 
+router.post('/upload_image/:username/:profilename', codersController.uploadImage);
+
 /**
  * @swagger
  * /api/coders:

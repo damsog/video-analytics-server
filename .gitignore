@@ -3,3 +3,5 @@ node_modules/
 mydatabase_backup.sql
 nohup.out
 .env
+resources/user_data/*
+!sources/user_data/.gitkeep
