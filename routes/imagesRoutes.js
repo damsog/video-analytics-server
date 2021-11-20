@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const imagesController = require('../controllers/imagesController');
 
-router.post('/saveimage/:username/:profilename', imagesController.saveImage);
+//router.post('/saveimage/:username/:profilename', imagesController.saveImage);
 
 /**
  * @swagger
@@ -32,7 +32,7 @@ router.post('/saveimage/:username/:profilename', imagesController.saveImage);
  *                              $ref: '#/components/schemas/image'
  *                                
  */
-router.post('/', imagesController.createImageRecord);
+router.post('/:userId/:profileId', imagesController.saveImage, imagesController.createImageRecord);
 
 /**
  * @swagger

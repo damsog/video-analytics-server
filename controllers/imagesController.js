@@ -5,7 +5,7 @@ const fs = require('fs');
 // Setting multer for uploading files
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, './resources/user_data/' + req.params.username + '/' + req.params.profilename);
+        cb(null, './resources/user_data/' + req.params.userId + '/' + req.params.profileId);
     },
     filename: function(req, file, cb) {
         cb(null, file.originalname);
@@ -22,19 +22,18 @@ const upload = multer({
 });
 
 exports.saveImage = (req, res, next) => {
-    console.log("Uploading image to profile " + req.params.profilename);
-    var dir = './resources/user_data/' + req.params.username + '/' + req.params.profilename ;
-    
+    console.log("Uploading image to profile " + req.params.userId);
+    var dir = './resources/user_data/' + req.params.userId + '/' + req.params.profileId;
+    // TODO: Check if profileId exists
+    // TODO: Check if file already exists
     try {
         var response = { success : true };
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true});
             response['details'] = " Resource Just created";
         }
-        upload.single('profilePicture')(req, res, next);
-        // TODO: query the DB updating the route for the new picture added
-    
-        res.json(response)
+        upload.single('profilePicture')(req,res,next);
+      
         
     } catch (e) {
         console.log(e);
@@ -44,10 +43,10 @@ exports.saveImage = (req, res, next) => {
 }
 
 // Controller to create a new image registry
-exports.createImageRecord = async (req,res) => {
+exports.createImageRecord = async (req,res, next) => {
     try {
         const response = await images.create({
-            coder_img_route: req.body.coder_img_route,
+            coder_img_route: req.file.path,
             profileId: req.body.profileId
         }).then((data) => {
             const res = {
