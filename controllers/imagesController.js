@@ -218,6 +218,7 @@ exports.getImagesByProfileId = async (req,res) => {
 // Controller to request the embedding of the images.
 // This function requests to the python analytics server
 // And saves the result in the DB for each image.
+// Big Function Ahead
 exports.encodeImages = async (req,res) => {
     try {
         const images_ids = req.body.images_ids;
@@ -290,7 +291,8 @@ exports.encodeImages = async (req,res) => {
                 }).then(() => {
                     const query_response = ({
                         "id" : found_imgs_ids[j],
-                        "result" : "success"
+                        "sucess" : true,
+                        "message" : "Encoded extracted and saved correctly"
                     });
                     return query_response;
                 }).catch((error) =>{
