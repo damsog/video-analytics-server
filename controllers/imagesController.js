@@ -2,7 +2,9 @@ const images = require('../models/images');
 const multer = require('multer');
 const fs = require('fs');
 
-// Setting multer for uploading files
+// Setting multer for uploading files. the path where files will
+// be savd to. each user has profile folders, and each profile 
+// folder can have multiple pictures.
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './resources/user_data/' + req.params.userId + '/' + req.params.profileId);
@@ -13,7 +15,6 @@ const storage = multer.diskStorage({
 });
 
 // describing the file to upload. set limits and restrictions
-// 1gb files max
 const upload = multer({
     storage: storage, 
     limits: {
@@ -21,6 +22,9 @@ const upload = multer({
     }
 });
 
+// Controller to save an image file on the server. after this, the
+// function CreateImageRecord should be used to store the registry 
+// of the uploaded image
 exports.saveImage = (req, res, next) => {
     console.log("Uploading image to profile " + req.params.userId);
     var dir = './resources/user_data/' + req.params.userId + '/' + req.params.profileId;
@@ -42,24 +46,41 @@ exports.saveImage = (req, res, next) => {
 
 }
 
-// Controller to create a new image registry
+// Controller to create a new image registry. This should be called 
+// after an image was saved to use the path as input for the record
 exports.createImageRecord = async (req,res, next) => {
     try {
-        const response = await images.create({
-            coder_img_route: req.file.path,
-            profileId: req.body.profileId
-        }).then((data) => {
-            const res = {
-                success: true,
-                message: "Query executed correctly",
-                data: data
+        // Checks if the file exists and not updates the DB
+        const exist_response = await images.findOne({where: {coder_img_route: req.file.path} });
+
+        let response = {}
+        if(exist_response){
+
+            // If file already exist doesn't create a new record
+            response = {
+                success: false,
+                message: "A file with the same name already exists"
             }
-            return res;
-        }).catch((error) => {
-            const res = { success: false, error: error }
-            return res;
-        });              
-        
+
+        }else{
+
+            // If file doesn't exist then create an image record
+            response = await images.create({
+                coder_img_route: req.file.path,
+                profileId: req.body.profileId
+            }).then((data) => {
+                const res = {
+                    success: true,
+                    message: "Query executed correctly",
+                    data: data
+                }
+                return res;
+            }).catch((error) => {
+                const res = { success: false, error: error }
+                return res;
+            });              
+        }
+
         res.json(response);
     } catch (e) {
         console.log(e);
