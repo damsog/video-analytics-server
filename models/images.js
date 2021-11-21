@@ -15,6 +15,11 @@ const images = sequelize.define("images",{
         type: DataTypes.STRING(60),
         allowNull: true
     },
+    is_encoded: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: 0,
+        allowNull: false
+    },
     time_creation: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,

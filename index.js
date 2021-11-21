@@ -33,14 +33,10 @@ const swaggerOptions = {
 
 // initializations
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-
 const app = express();
 
 // settigs
-
 app.set('port', process.env.PORT || 4000);
-
-
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs)); // swagger route
 
 
