@@ -308,7 +308,7 @@ exports.encodeImages = async (req,res) => {
         }else{
             update_response = ({
                 "success" : false,
-                "result" : "Failed to get a request from the server",
+                "result" : "Server Error. Failed to get a request from the analytics server",
                 "error" : response["error"]
             });
         }
