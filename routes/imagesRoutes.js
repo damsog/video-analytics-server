@@ -199,6 +199,8 @@ router.delete('/:id', imagesController.deleteImageById);
  */
 router.get('/bypId/:profileId', imagesController.getImagesByProfileId);
 
+router.post('/encode', imagesController.encodeImages);
+
 /**
  * @swagger
  * components:

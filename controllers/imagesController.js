@@ -1,6 +1,10 @@
 const images = require('../models/images');
 const multer = require('multer');
 const fs = require('fs');
+const path = require('path');
+const axios = require('axios');
+require('dotenv').config()
+
 
 // Setting multer for uploading files. the path where files will
 // be savd to. each user has profile folders, and each profile 
@@ -203,6 +207,57 @@ exports.getImagesByProfileId = async (req,res) => {
             const res = { success:false, error: error}
             return res;
         })
+        res.json(response);
+    } catch (e) {
+        console.log(e);
+        res.status(500).log("There was an error ")
+    }
+}
+
+exports.encodeImages = async (req,res) => {
+    try {
+        const images_ids = req.body.images_ids;
+
+        const images_routes = await images.findAll({
+            attributes: ['coder_img_route'],
+            where: {id: images_ids }
+        }).catch((error) => {
+            const res = { success: false, error: error }
+            return res;
+        });
+
+        // Getting the list of images (routes)
+        var img_list = []
+        for(let i=0;i<images_routes.length;i++){
+            img_list.push(path.join(__dirname, '../')+images_routes[i]['coder_img_route']);
+        }
+
+        // Forming our payload for the encoding request
+        var payload = JSON.stringify({ 
+            "name" : "encode", 
+            "img_format" : "route",
+            "imgs": img_list
+        });
+
+        // Setting configuration of the request
+        var url = 'http://'+process.env.FACE_ANALYTICS_SERVER + ':' + process.env.FACE_ANALYTICS_PORT + '/encode_images';
+        var config = {
+            method: 'post',
+            url: url,
+            headers: {'Content-Type':'application/json'},
+            data: payload
+        };
+
+        // Getting the embeddings from the request
+        const response = await axios(config).then((result) =>{
+            console.log(result.data);
+            return result.data;
+        }).catch((error) =>{
+            console.log(error);
+            return error;
+        })
+
+        
         res.json(response);
     } catch (e) {
         console.log(e);
