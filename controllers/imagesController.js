@@ -3,6 +3,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+const { request } = require('express');
 require('dotenv').config()
 
 
@@ -70,7 +71,7 @@ exports.createImageRecord = async (req,res, next) => {
 
             // If file doesn't exist then create an image record
             response = await images.create({
-                coder_img_route: req.file.path,
+                coder_img_route: path.join(__dirname, '../')+req.file.path,
                 profileId: req.body.profileId
             }).then((data) => {
                 const res = {
@@ -214,22 +215,28 @@ exports.getImagesByProfileId = async (req,res) => {
     }
 }
 
+// Controller to request the embedding of the images.
+// This function requests to the python analytics server
+// And saves the result in the DB for each image.
 exports.encodeImages = async (req,res) => {
     try {
         const images_ids = req.body.images_ids;
-
+        
+        // TODO: What to do with images that dont exist
         const images_routes = await images.findAll({
-            attributes: ['coder_img_route'],
+            attributes: ['id','coder_img_route'],
             where: {id: images_ids }
         }).catch((error) => {
             const res = { success: false, error: error }
             return res;
         });
-
-        // Getting the list of images (routes)
+        
+        // Getting the list of images (routes) and the list of ids of images found
         var img_list = []
+        var found_imgs_ids = [];
         for(let i=0;i<images_routes.length;i++){
-            img_list.push(path.join(__dirname, '../')+images_routes[i]['coder_img_route']);
+            img_list.push(images_routes[i]['coder_img_route']);
+            found_imgs_ids.push(images_routes[i]['id']);
         }
 
         // Forming our payload for the encoding request
@@ -248,17 +255,65 @@ exports.encodeImages = async (req,res) => {
             data: payload
         };
 
+        // Requesting to the Analytics server
         // Getting the embeddings from the request
         const response = await axios(config).then((result) =>{
-            console.log(result.data);
-            return result.data;
-        }).catch((error) =>{
-            console.log(error);
-            return error;
-        })
 
-        
-        res.json(response);
+            const request_response = result.data;
+            request_response["success"] = true;
+            return request_response;
+
+        }).catch((error) =>{
+            const request_response = ({
+                "success" : false,
+                "error" : error
+            });
+
+            return request_response;
+        });
+        var update_response;
+
+        // IF the request from the videoanalytics server was successful, continue
+        if(response["success"] == true){
+
+            update_response = [];
+            // Saving the embedding code of the images on the DB for each image
+            for(let j=0;j<found_imgs_ids.length;j++){
+
+                // TODO: Consider if the best way to store the codes is as TEXT of is there a better way.
+                // Queries the DB for each image to save the embedding and returns the result
+                let query_result = await images.update({
+                    coder: response["embeddings"][j]["embedding"].toString(),
+                    is_encoded: 1                
+                },{
+                    where: {id: found_imgs_ids[j]}
+                }).then(() => {
+                    const query_response = ({
+                        "id" : found_imgs_ids[j],
+                        "result" : "success"
+                    });
+                    return query_response;
+                }).catch((error) =>{
+                    const query_response = ({
+                        "id" : found_imgs_ids[j],
+                        "result" : "failed",
+                        "error" : error
+                    });
+                    return query_response;
+                });
+
+                // Stacks the response of the queries
+                update_response.push(query_result);
+            }
+        }else{
+            update_response = ({
+                "success" : false,
+                "result" : "Failed to get a request from the server",
+                "error" : response["error"]
+            });
+        }
+
+        res.json( update_response );
     } catch (e) {
         console.log(e);
         res.status(500).log("There was an error ")

@@ -12,7 +12,7 @@ const images = sequelize.define("images",{
         allowNull: false
     },
     coder: {
-        type: DataTypes.STRING(60),
+        type: DataTypes.TEXT,
         allowNull: true
     },
     is_encoded: {
