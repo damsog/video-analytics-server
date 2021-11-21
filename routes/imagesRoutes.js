@@ -6,7 +6,7 @@ const imagesController = require('../controllers/imagesController');
 
 /**
  * @swagger
- * /api/images:
+ * /api/images/{userId}/{profileId}:
  *  post:
  *      summary: Create a new Image associated to a profile
  *      tags: [Images]
@@ -15,12 +15,27 @@ const imagesController = require('../controllers/imagesController');
  *              name: x-access-token
  *              schema:
  *                  type: string
+ *          -   in: path
+ *              name: userId
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: User id
+ *          -   in: path
+ *              name: profileId
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: Profile id
  *      requestBody:
- *          required: true
- *          content: 
- *              application/json:
+ *          content:
+ *              multipart/form-data:
  *                  schema:
- *                      $ref: '#/components/schemas/image'
+ *                      type: object
+ *                      properties:
+ *                          profilePicture:
+ *                              type: string
+ *                              format: binary
  *      responses:
  *          200:
  *              description: Image just created
