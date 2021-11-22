@@ -199,6 +199,41 @@ router.delete('/:id', imagesController.deleteImageById);
  */
 router.get('/bypId/:profileId', imagesController.getImagesByProfileId);
 
+/**
+ * @swagger
+ * /api/images/encode:
+ *  post:
+ *      summary: Requests saved Images to be encoded
+ *      tags: [Images]
+ *      parameters:
+ *          -   in: header
+ *              name: x-access-token
+ *              schema:
+ *                  type: string
+ *      requestBody:
+ *          required: true
+ *          content: 
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          images_ids:
+ *                              type: array
+ *                              items:
+ *                                  type: string
+ *                              example: ["1","2","3"]
+ *                      
+ *      responses:
+ *          200:
+ *              description: If operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/image'
+ *          404:
+ *              description: Coder not found
+ *                                
+ */
 router.post('/encode', imagesController.encodeImages);
 
 /**
