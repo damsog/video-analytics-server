@@ -13,7 +13,7 @@ const groups = sequelize.define("profile_groups",{
     },
     dataset_route: {
         type: DataTypes.STRING(60),
-        allowNull: false
+        allowNull: true
     },
     time_creation: {
         type: DataTypes.DATE,
