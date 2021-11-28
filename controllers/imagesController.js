@@ -1,9 +1,9 @@
 const images = require('../models/images');
+const { resetCodeAdded } = require('./relationsController');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-const { request } = require('express');
 require('dotenv').config()
 
 
@@ -61,7 +61,7 @@ exports.createImageRecord = async (req,res, next) => {
         let response = {}
         if(exist_response){
 
-            // If file already exist doesn't create a new record
+            // If file already exist don't create a new record
             response = {
                 success: false,
                 message: "A file with the same name already exists"
@@ -83,7 +83,11 @@ exports.createImageRecord = async (req,res, next) => {
             }).catch((error) => {
                 const res = { success: false, error: error }
                 return res;
-            });              
+            });
+            
+            // Update  groups, which should readd the coders due to the new record
+            resetResult = await resetCodeAdded(req.params.profileId);
+            response["group_update_result"] = resetResult;
         }
 
         res.json(response);
