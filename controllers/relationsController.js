@@ -100,3 +100,22 @@ exports.deleteRelation = async (req,res) => {
         res.status(500).send("There was an error");                
     }
 }
+
+exports.resetCodeAdded = async (profileId) => {
+    try {
+        const response = await relations.update({
+            codes_added: false
+        },{
+            where: {profileId: profileId}
+        }).then((res) =>{
+            return res;
+        }).catch((error) => {
+            return error;
+        });
+
+        return response;
+    } catch (e) {
+        console.log(e);
+        return e;
+    }
+}

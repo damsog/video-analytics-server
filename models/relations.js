@@ -7,6 +7,11 @@ const relations = sequelize.define("relations",{
         primaryKey:true,
         autoIncrement:true,
     },
+    codes_added: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
     time_creation: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
