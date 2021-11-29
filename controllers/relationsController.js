@@ -119,3 +119,24 @@ exports.resetCodeAdded = async (profileId) => {
         return e;
     }
 }
+
+// Query to count how many profiles have codes yet to be added to the group file
+exports.countCodesAddToGroup = async (groupId) => {
+    try {
+        const response = relations.count({
+            where: {
+                codes_added: 0,
+                profileGroupId: groupId
+            }
+        }).then((count) => {
+            return count;
+        }).catch((error) => {
+            return error;
+        });
+
+        return response;
+    } catch (e) {
+        console.log(e);
+        return e;
+    }
+}

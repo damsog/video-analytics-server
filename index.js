@@ -54,6 +54,7 @@ app.use('/api/profiles', auth, require('./routes/profilesRoutes'));
 app.use('/api/groups', auth, require('./routes/groupsRoutes'));
 app.use('/api/images', auth, require('./routes/imagesRoutes'));
 app.use('/api/relations', auth, require('./routes/relationsRoutes'));
+app.use('/api/process', auth, require('./routes/processesRoutes'));
 
 
 // Run the server
