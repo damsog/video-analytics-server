@@ -4,6 +4,8 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+const profiles = require('../models/profiles');
+const relations = require('../models/relations');
 require('dotenv').config()
 
 
@@ -320,6 +322,36 @@ exports.encodeImages = async (req,res) => {
         }
 
         res.json( update_response );
+    } catch (e) {
+        console.log(e);
+        res.status(500).log("There was an error ");
+    }
+}
+
+// Inner join Query to get which images need to be encoded for a group
+exports.imgsToEncodeGroup = async (groupId) => {
+    try {
+        const response = await images.findAll({
+            attributes : ['id'],
+            where : {
+                is_encoded : 0, 
+                '$profile->relations.profileGroupId$' : groupId
+            },
+            include : [{
+                model : profiles,
+                attributes : [],
+                include : [{
+                    model : relations,
+                    attributes : []
+                }] 
+            }]
+        }).then((data) => {
+            return data;
+        }).catch((error) => {
+            return error;
+        });
+
+        return response;
     } catch (e) {
         console.log(e);
         res.status(500).log("There was an error ");
