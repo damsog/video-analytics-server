@@ -353,7 +353,36 @@ exports.imgsToEncodeGroup = async (groupId) => {
 
         return response;
     } catch (e) {
-        console.log(e);
-        res.status(500).log("There was an error ");
+        return e;
+    }
+}
+
+// Inner join requesting the codes for all the images of all the profiles belonging to a specific group
+exports.getCodesForGroup = async (groupId) => {
+    try {
+        const response = await images.findAll({
+            attributes : ['coder'],
+            where : {
+                '$profile->relations.profileGroupId$' : groupId
+            },
+            include : [{
+                model: profiles,
+                attributes: ['id'],
+                required: true,
+                include: [{
+                    model: relations,
+                    attributes: [],
+                    required: true
+                }]
+            }]
+        }).then((data) => {
+            return data;
+        }).catch((error) => {
+            return error;
+        });
+
+        return response;
+    } catch (e) {
+        return e;
     }
 }

@@ -1,5 +1,5 @@
 const { countCodesAddToGroup } = require('./relationsController');
-const { imgsToEncodeGroup } = require('./imagesController')
+const { imgsToEncodeGroup, encodeImages, getCodesForGroup } = require('./imagesController')
 
 exports.processSingleImg = async (req,res) => {
     try {
@@ -30,21 +30,38 @@ exports.reloadCodesToGroup = async (req, res) => {
     try {
         var imgs = await imgsToEncodeGroup(req.body.groupId);
         var response;
-        if(!imgs){
-            // TODO: Query get Embeddings
+        const autoEncode = false;
+        if(imgs.length <= 0){
             // TODO: Parse Data and store it
+
+            var codesjson = await getCodesForGroup(req.body.groupId);
+            console.log(codesjson);
+
             response = {
                 "success" : true,
                 "message" : "Processing images",
-                "data" : imgs
+                "data" : codesjson
             }
         }else{
-            // TODO: If autoencode. Request to encode images that still need encodding.
-            // or just repsonse informing.
-            response = {
-                "success" : false,
-                "message" : "Images that still need to be encoded for this group",
-                "data" : imgs
+            if(autoEncode){
+                // TODO: If autoencode. Request to encode images that still need encodding.
+                // or just repsonse informing.
+                res.data.imgs = imgs;
+
+                // TODO: Needs to work as a internal function
+                //const encodeResponse = await encodeImages(req,res);
+
+                response = {
+                    "success" : false,
+                    "message" : "Images needed to be encoded.",
+                    "data" : encodeResponse
+                }
+            }else{
+                response = {
+                    "success" : false,
+                    "message" : "Images that still need to be encoded for this group",
+                    "data" : imgs
+                }
             }
         }
 
