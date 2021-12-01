@@ -31,16 +31,19 @@ exports.reloadCodesToGroup = async (req, res) => {
         var imgs = await imgsToEncodeGroup(req.body.groupId);
         var response;
         const autoEncode = false;
+        var dataArray = []
         if(imgs.length <= 0){
             // TODO: Parse Data and store it
 
             var codesjson = await getCodesForGroup(req.body.groupId);
-            console.log(codesjson);
+            for(let i=0;i<codesjson.length;i++){
+                dataArray.push([ codesjson[i]["profile"]["id"], codesjson[i]["coder"] ])
+            }
 
             response = {
                 "success" : true,
                 "message" : "Processing images",
-                "data" : codesjson
+                "data" : dataArray
             }
         }else{
             if(autoEncode){
