@@ -34,8 +34,10 @@ exports.reloadCodesToGroup = async (req, res) => {
         var dataArray = []
         if(imgs.length <= 0){
             // TODO: Parse Data and store it
-
+            // Gettings all image codes for a group
             var codesjson = await getCodesForGroup(req.body.groupId);
+
+            // Compile all the codes on an array with their respective user
             for(let i=0;i<codesjson.length;i++){
                 dataArray.push([ codesjson[i]["profile"]["id"], codesjson[i]["coder"] ])
             }

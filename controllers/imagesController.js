@@ -14,7 +14,7 @@ require('dotenv').config()
 // folder can have multiple pictures.
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, './resources/user_data/' + req.params.userId + '/' + req.params.profileId);
+        cb(null, process.env.RESOURCES_PATH + 'user_data/' + req.params.userId + '/' + req.params.profileId);
     },
     filename: function(req, file, cb) {
         cb(null, file.originalname);
@@ -34,7 +34,7 @@ const upload = multer({
 // of the uploaded image
 exports.saveImage = (req, res, next) => {
     console.log("Uploading image to profile " + req.params.userId);
-    var dir = './resources/user_data/' + req.params.userId + '/' + req.params.profileId;
+    var dir = process.env.RESOURCES_PATH + 'user_data/' + req.params.userId + '/' + req.params.profileId;
     // TODO: Check if profileId exists
     // TODO: Check if file already exists
     try {

@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
+const fs = require('fs');
 require("./models/users");
 require('./models/profiles');
 require('./models/groups');
@@ -35,6 +36,12 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 const app = express();
 
+// Creating some required folders
+if (!fs.existsSync(process.env.RESOURCES_PATH)) {
+    fs.mkdirSync(process.env.RESOURCES_PATH, { recursive: true});
+    console.log("Resource Created on: " + process.env.RESOURCES_PATH);
+}
+
 // settigs
 app.set('port', process.env.PORT || 4000);
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs)); // swagger route
@@ -59,5 +66,6 @@ app.use('/api/process', auth, require('./routes/processesRoutes'));
 
 // Run the server
 app.listen(app.get('port'), () => {
-    console.log("Server running on port ", app.get('port'));
+    console.log("SERVER INFO: Resources folder resides on: " + process.env.RESOURCES_PATH);
+    console.log("SERVER INFO: Server running on port: ", app.get('port'));
 });
