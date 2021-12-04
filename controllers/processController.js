@@ -1,5 +1,6 @@
-const { countCodesAddToGroup } = require('./relationsController');
-const { imgsToEncodeGroup, encodeImages, getCodesForGroup } = require('./imagesController')
+const { countCodesAddToGroup, setCodesAdded } = require('./relationsController');
+const { imgsToEncodeGroup, getCodesForGroup } = require('./imagesController')
+const { updateGroupByIdQ } = require('./groupsController');
 const fs = require('fs');
 
 exports.processSingleImg = async (req,res) => {
@@ -29,8 +30,9 @@ exports.processSingleImg = async (req,res) => {
 
 exports.reloadCodesToGroup = async (req, res) => {
     try {
-        var imgs = await imgsToEncodeGroup(req.body.groupId);
-        const groupPath = `${process.env.RESOURCES_PATH}user_data/${req.user.user_id}/g${req.body.groupId}/`;
+        const groupId = req.body.groupId;
+        var imgs = await imgsToEncodeGroup(groupId);
+        const groupPath = `${process.env.RESOURCES_PATH}user_data/${req.user.user_id}/g${groupId}/`;
         var response;
         const autoEncode = false;
         var dataArray = []
@@ -38,28 +40,41 @@ exports.reloadCodesToGroup = async (req, res) => {
         if(imgs.length <= 0){
             // TODO: Parse Data and store it
             // Gettings all image codes for a group
-            var codesjson = await getCodesForGroup(req.body.groupId);
+            var codesjson = await getCodesForGroup(groupId);
 
             // Compile all the codes on an array with their respective user
             for(let i=0;i<codesjson.length;i++){
                 dataArray.push([ codesjson[i]["profile"]["id"], codesjson[i]["coder"] ])
             }
 
-            let details;
+            let details = {};
 
             // Creating the group folder if it doesn't exists
             if (!fs.existsSync(groupPath)) {
                 fs.mkdirSync(groupPath, { recursive: true});
-                details = " Resource group path just created";
+                details["Resource"] = " Resource group path just created";
             }
 
             // Saving the codes file
             let dataJson = JSON.stringify(dataArray, null, 2);
-            fs.writeFile(`${groupPath}g${req.body.groupId}embeddings.json`, dataJson, (err) => {
-                if (err) throw err;
+            let embeddingRoute = `${groupPath}g${groupId}embeddings.json`;
+            let createEmbeddingFileRes = await fs.writeFile(embeddingRoute, dataJson, (err) => {
+                if (err){
+                    return "error";
+                }else{
+                    return "success";
+                }
             });
+            details["createEmbeddingFileResult"] = createEmbeddingFileRes;
 
-            // Now updating DB to save the codes file path and update the 
+            if(createEmbeddingFileRes="success"){
+                // Now updating DB to save the codes file path and update the group-profiles relations
+                let updateRelationsRes = await setCodesAdded(groupId);
+                details["updateRelationResult"] = updateRelationsRes;
+
+                let updateGroup = await updateGroupByIdQ(undefined,embeddingRoute,undefined,groupId);
+                details["updateGroupResult"] = updateGroup;
+            }
 
             response = {
                 "success" : true,
