@@ -101,12 +101,33 @@ exports.deleteRelation = async (req,res) => {
     }
 }
 
+// Query to Update group-profile relation for a profile that needs to be re-added to embedding file
 exports.resetCodeAdded = async (profileId) => {
     try {
         const response = await relations.update({
             codes_added: false
         },{
             where: {profileId: profileId}
+        }).then((res) =>{
+            return res;
+        }).catch((error) => {
+            return error;
+        });
+
+        return response;
+    } catch (e) {
+        console.log(e);
+        return e;
+    }
+}
+
+// Query to Update group-profile relation for a group where all profiles were just added to an embedding file
+exports.setCodesAdded = async (groupId) => {
+    try {
+        const response = await relations.update({
+            codes_added: true
+        },{
+            where: {profileGroupId: groupId}
         }).then((res) =>{
             return res;
         }).catch((error) => {
