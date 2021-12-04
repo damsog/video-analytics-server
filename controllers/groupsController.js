@@ -71,6 +71,7 @@ exports.getGroupById = async (req,res) => {
 }
 
 // Controller to update a profile info
+// TODO: UPdate this function to call the query instead
 exports.updateGroupById = async (req,res) => {
     try {
         const { name, dataset_route, userId } = req.body;
@@ -145,5 +146,32 @@ exports.getGroupsByUserId = async (req,res) => {
     } catch (e) {
         console.log(e);
         res.status(500).log("There was an error ")
+    }
+}
+
+// Query to update a group info
+exports.updateGroupByIdQ = async (name, dataset_route, userId, groupId) => {
+    try {
+        const response = await groups.update({
+            fullname: name,
+            dataset_route: dataset_route,
+            userId: userId
+        }, {
+            where: {id: groupId }
+        }).then((data) => {
+            const res = {
+                success: true,
+                message: "Query executed successfully",
+                data: data
+            }
+            return res;
+        }).catch((error) => {
+            const res = {success: false , error, error}
+            return res;
+        })
+
+        return response;
+    } catch (e) {
+        return e;
     }
 }
