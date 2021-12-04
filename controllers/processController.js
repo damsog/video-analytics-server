@@ -1,5 +1,6 @@
 const { countCodesAddToGroup } = require('./relationsController');
 const { imgsToEncodeGroup, encodeImages, getCodesForGroup } = require('./imagesController')
+const fs = require('fs');
 
 exports.processSingleImg = async (req,res) => {
     try {
@@ -29,9 +30,11 @@ exports.processSingleImg = async (req,res) => {
 exports.reloadCodesToGroup = async (req, res) => {
     try {
         var imgs = await imgsToEncodeGroup(req.body.groupId);
+        const groupPath = `${process.env.RESOURCES_PATH}user_data/${req.user.user_id}/g${req.body.groupId}/`;
         var response;
         const autoEncode = false;
         var dataArray = []
+        
         if(imgs.length <= 0){
             // TODO: Parse Data and store it
             // Gettings all image codes for a group
@@ -42,10 +45,26 @@ exports.reloadCodesToGroup = async (req, res) => {
                 dataArray.push([ codesjson[i]["profile"]["id"], codesjson[i]["coder"] ])
             }
 
+            let details;
+
+            // Creating the group folder if it doesn't exists
+            if (!fs.existsSync(groupPath)) {
+                fs.mkdirSync(groupPath, { recursive: true});
+                details = " Resource group path just created";
+            }
+
+            // Saving the codes file
+            let dataJson = JSON.stringify(dataArray, null, 2);
+            fs.writeFile(`${groupPath}g${req.body.groupId}embeddings.json`, dataJson, (err) => {
+                if (err) throw err;
+            });
+
+            // Now updating DB to save the codes file path and update the 
+
             response = {
                 "success" : true,
-                "message" : "Processing images",
-                "data" : dataArray
+                "message" : "Codes file created for group",
+                "details" : details
             }
         }else{
             if(autoEncode){
