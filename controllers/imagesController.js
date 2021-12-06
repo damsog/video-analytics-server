@@ -73,7 +73,7 @@ exports.createImageRecord = async (req,res, next) => {
 
             // If file doesn't exist then create an image record
             response = await images.create({
-                coder_img_route: path.join(__dirname, '../')+req.file.path,
+                coder_img_route: req.file.path,
                 profileId: req.params.profileId
             }).then((data) => {
                 const res = {

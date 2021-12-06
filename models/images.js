@@ -8,7 +8,7 @@ const images = sequelize.define("images",{
         autoIncrement:true,
     },
     coder_img_route: {
-        type: DataTypes.STRING(120),
+        type: DataTypes.STRING(300),
         allowNull: false
     },
     coder: {
