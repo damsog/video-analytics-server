@@ -50,6 +50,7 @@ exports.getAllGroups = async (req,res) => {
 }
 
 // Controller to get a group info given an id
+// TODO: UPdate this function to call the query instead
 exports.getGroupById = async (req,res) => {
     try {
         const response = await groups.findByPk(req.params.id).then((data) => {
@@ -170,6 +171,26 @@ exports.updateGroupByIdQ = async (name, dataset_route, userId, groupId) => {
             return res;
         })
 
+        return response;
+    } catch (e) {
+        return e;
+    }
+}
+
+// Query to get a group info given an id
+exports.getGroupByIdQ = async (groupId) => {
+    try {
+        const response = await groups.findByPk(groupId).then((data) => {
+            const res = {
+                success: true,
+                message: "Query executed successfully",
+                data: data
+            }
+            return res;
+        }).catch((error) => {
+            const res = { success:false, error: error}
+            return res;
+        })
         return response;
     } catch (e) {
         return e;

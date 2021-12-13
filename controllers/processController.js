@@ -1,6 +1,6 @@
 const { countCodesAddToGroup, setCodesAdded } = require('./relationsController');
 const { imgsToEncodeGroup, getCodesForGroup } = require('./imagesController')
-const { updateGroupByIdQ } = require('./groupsController');
+const { getGroupByIdQ, updateGroupByIdQ } = require('./groupsController');
 const fs = require('fs');
 const axios = require('axios');
 
@@ -15,12 +15,15 @@ exports.processSingleImg = async (req,res) => {
                 "data" : countCodesToAdd
             }
         }else{
-            // TODO: Process the Dataa and make the request to python API
+            // TODO: Receive and image to send on the request
+            
+            // Query to get the path to the group coder file
+            let group_data = await getGroupByIdQ(req.body.groupId);
 
             // Forming our payload for the encoding request
             var payload = JSON.stringify({ 
-                "name" : "encode", 
-                "dataset_path" : "/route/placeholder/data.json",
+                "name" : group_data["data"]["name"], 
+                "dataset_path" : group_data["data"]["dataset_route"],
                 "img": "img_placeholder"
             });
 
