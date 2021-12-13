@@ -2,6 +2,7 @@ const { countCodesAddToGroup, setCodesAdded } = require('./relationsController')
 const { imgsToEncodeGroup, getCodesForGroup } = require('./imagesController')
 const { updateGroupByIdQ } = require('./groupsController');
 const fs = require('fs');
+const axios = require('axios');
 
 exports.processSingleImg = async (req,res) => {
     try {
@@ -15,9 +16,43 @@ exports.processSingleImg = async (req,res) => {
             }
         }else{
             // TODO: Process the Dataa and make the request to python API
+
+            // Forming our payload for the encoding request
+            var payload = JSON.stringify({ 
+                "name" : "encode", 
+                "dataset_path" : "/route/placeholder/data.json",
+                "img": "img_placeholder"
+            });
+
+            // Setting configuration of the request
+            var url = `http://${process.env.FACE_ANALYTICS_SERVER}:${process.env.FACE_ANALYTICS_PORT}/analyze_image`;
+            var config = {
+                method: 'post',
+                url: url,
+                headers: {'Content-Type':'application/json'},
+                data: payload
+            };
+
+            // Requesting to the Analytics server
+            // Getting response of an image
+            const request_response = await axios(config).then((result) =>{
+                const request_response = result.data;
+                request_response["success"] = true;
+                return request_response;
+
+            }).catch((error) =>{
+                const request_response = ({
+                    "success" : false,
+                    "error" : error
+                });
+
+                return request_response;
+            });
+
             response = {
                 "success" : true,
-                "message" : "img will be processed"
+                "message" : "img will be processed",
+                "data" : request_response
             }
         }
 
