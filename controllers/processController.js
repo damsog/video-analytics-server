@@ -24,7 +24,8 @@ exports.processSingleImg = async (req,res) => {
             var payload = JSON.stringify({ 
                 "name" : group_data["data"]["name"], 
                 "dataset_path" : group_data["data"]["dataset_route"],
-                "img": "img_placeholder"
+                "img": req.body.img,
+                "return_img" : req.body.return_img
             });
 
             // Setting configuration of the request

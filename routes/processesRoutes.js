@@ -25,6 +25,14 @@ const processController = require('../controllers/processController');
  *                              type: int
  *                              description: The id of the group to use as reference
  *                              example: "1"
+ *                          return_img:
+ *                              type: 1
+ *                              description: The id of the group to use as reference
+ *                              example: "1"
+ *                          img:
+ *                              type: str
+ *                              description: the image to process as b64
+ *                              example: "/9j/4AAQSk..."
  *      responses:
  *          200:
  *              description: If operation was succesful
