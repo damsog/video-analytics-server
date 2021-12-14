@@ -15,7 +15,7 @@ exports.processSingleImg = async (req,res) => {
                 "data" : countCodesToAdd
             }
         }else{
-            // TODO: Receive and image to send on the request
+            // TODO: Finish with the complete set of options to request. ie. landmarks, bboxes, etc
             
             // Query to get the path to the group coder file
             let group_data = await getGroupByIdQ(req.body.groupId);
