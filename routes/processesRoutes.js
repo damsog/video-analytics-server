@@ -80,4 +80,6 @@ router.post('/', processController.processSingleImg);
  */
 router.post('/reloadcodes', processController.reloadCodesToGroup);
 
+router.post('/facedetection/stream', processController.faceDetectionStream);
+
 module.exports = router;

@@ -149,3 +149,45 @@ exports.reloadCodesToGroup = async (req, res) => {
         res.status(500).log("There was an error ");
     }
 }
+
+exports.faceDetectionStream = async (req, res) => {
+    //TODO Work as a signaling server. Receive
+    // Forming our payload for the encoding request
+    var payload = JSON.stringify({ 
+        "sdp" : req.body.sdp, 
+        "type" : req.body.type
+    });
+
+    // Setting configuration of the request
+    var url = `http://${process.env.FACE_ANALYTICS_SERVER}:${process.env.FACE_ANALYTICS_PORT}/facedet_stream`;
+    var config = {
+        method: 'post',
+        url: url,
+        headers: {'Content-Type':'application/json'},
+        data: payload
+    };
+
+    // Requesting to the Analytics server
+    // Getting response for the signaling
+    const request_response = await axios(config).then((result) =>{
+        let request_response = result.data;
+        request_response["success"] = true;
+        return request_response;
+
+    }).catch((error) =>{
+        const request_response = ({
+            "success" : false,
+            "error" : error
+        });
+
+        return request_response;
+    });
+
+    response = {
+        "success" : true,
+        "message" : "img will be processed",
+        "data" : request_response
+    }
+
+    res.json(response);
+}
