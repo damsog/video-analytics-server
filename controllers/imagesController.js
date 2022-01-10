@@ -118,7 +118,7 @@ exports.getAllImages = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -139,7 +139,7 @@ exports.getImageById = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -168,7 +168,7 @@ exports.updateImageById = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -192,7 +192,7 @@ exports.deleteImageById = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -217,7 +217,7 @@ exports.getImagesByProfileId = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -264,33 +264,33 @@ exports.encodeImages = async (req,res) => {
 
         // Requesting to the Analytics server
         // Getting the embeddings from the request
-        const response = await axios(config).then((result) =>{
+        const faserver_response = await axios(config).then((result) =>{
 
-            const request_response = result.data;
-            request_response["success"] = true;
-            return request_response;
+            const faserver_response = result.data;
+            faserver_response["success"] = true;
+            return faserver_response;
 
         }).catch((error) =>{
-            const request_response = ({
+            const faserver_response = ({
                 "success" : false,
                 "error" : error
             });
 
-            return request_response;
+            return faserver_response;
         });
-        var update_response;
+        var mserver_response;
 
         // IF the request from the videoanalytics server was successful, continue
-        if(response["success"] == true){
+        if(faserver_response["success"] == true){
 
-            update_response = [];
+            mserver_response = [];
             // Saving the embedding code of the images on the DB for each image
             for(let j=0;j<found_imgs_ids.length;j++){
 
                 // TODO: Consider if the best way to store the codes is as TEXT of is there a better way.
                 // Queries the DB for each image to save the embedding and returns the result
                 let query_result = await images.update({
-                    coder: response["embeddings"][j]["embedding"].toString(),
+                    coder: faserver_response["embeddings"][j]["embedding"].toString(),
                     is_encoded: 1                
                 },{
                     where: {id: found_imgs_ids[j]}
@@ -311,20 +311,20 @@ exports.encodeImages = async (req,res) => {
                 });
 
                 // Stacks the response of the queries
-                update_response.push(query_result);
+                mserver_response.push(query_result);
             }
         }else{
-            update_response = ({
+            mserver_response = ({
                 "success" : false,
-                "result" : "Server Error. Failed to get a request from the analytics server",
-                "error" : response["error"]
+                "faserver_response" : "Server Error. Failed to get a request from the analytics server",
+                "error" : faserver_response["error"]
             });
         }
 
-        res.json( update_response );
+        res.json( mserver_response );
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ");
+        res.status(500).send("There was an error ");
     }
 }
 

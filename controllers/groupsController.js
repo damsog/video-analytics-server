@@ -45,7 +45,7 @@ exports.getAllGroups = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -67,7 +67,7 @@ exports.getGroupById = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -97,7 +97,7 @@ exports.updateGroupById = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -121,7 +121,7 @@ exports.deleteGroupById = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -146,7 +146,7 @@ exports.getGroupsByUserId = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 

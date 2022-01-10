@@ -24,7 +24,7 @@ exports.createProfile = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -47,7 +47,7 @@ exports.getAllProfiles = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -97,7 +97,7 @@ exports.updateProfileById = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -121,7 +121,7 @@ exports.deleteProfileById = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
 
@@ -146,6 +146,6 @@ exports.getProfilesByUserId = async (req,res) => {
         res.json(response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ")
+        res.status(500).send("There was an error ")
     }
 }
