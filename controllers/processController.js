@@ -4,12 +4,12 @@ const { getGroupByIdQ, updateGroupByIdQ } = require('./groupsController');
 const fs = require('fs');
 const axios = require('axios');
 
-exports.processSingleImg = async (req,res) => {
+exports.processAnalyzeImg = async (req,res) => {
     try {
         const countCodesToAdd = await countCodesAddToGroup(req.body.groupId);
-        var response;
+        var mserver_response;
         if(countCodesToAdd != 0){
-            response = {
+            mserver_response = {
                 "success" : false,
                 "message" : "There are codes required to be added to the group. please request reloading the codes for this group",
                 "data" : countCodesToAdd
@@ -37,33 +37,79 @@ exports.processSingleImg = async (req,res) => {
                 data: payload
             };
 
-            // Requesting to the Analytics server
+            // Requesting to the Face Analytics server
             // Getting response of an image
-            const request_response = await axios(config).then((result) =>{
-                const request_response = result.data;
-                request_response["success"] = true;
-                return request_response;
+            const faserver_response = await axios(config).then((result) =>{
+                const faserver_response = result.data;
+                faserver_response["success"] = true;
+                return faserver_response;
 
             }).catch((error) =>{
-                const request_response = ({
+                const faserver_response = ({
                     "success" : false,
                     "error" : error
                 });
 
-                return request_response;
+                return faserver_response;
             });
 
-            response = {
+            mserver_response = {
                 "success" : true,
-                "message" : "img will be processed",
-                "data" : request_response
+                "message" : "img processed",
+                "faserver_response" : faserver_response
             }
         }
 
-        res.json(response);
+        res.json(mserver_response);
     } catch (e) {
         console.log(e);
         res.status(500).log("There was an error ");
+    }
+}
+
+exports.processDetectImg = async (req,res) => {
+    try {
+        var mserver_response;
+
+        // Json structure to send
+        var payload = JSON.stringify({
+            "img" : req.body.img,
+            "return_img" : req.body.return_img
+        });
+
+        // Axios configs for the request
+        url = `http://${process.env.FACE_ANALYTICS_SERVER}:${process.env.FACE_ANALYTICS_PORT}/detect_image`;
+        var config = {
+            method: 'post',
+            url: url,
+            headers: {'Content-Type':'application/json'},
+            data : payload
+        };
+        
+        // Requesting Face detection to the Face Analytics server
+        const faserver_response = await axios(config).then((result) =>{
+            const faserver_response = result.data;
+            faserver_response["success"] = true;
+            return faserver_response;
+        }).catch((error) =>{
+            const faserver_response = ({
+                "success" : false,
+                "error" : error
+            });
+
+            return faserver_response;
+        });
+
+        mserver_response = {
+            "success" : true,
+            "message" : "img processed",
+            "faserver_response" : faserver_response
+        }
+        
+        res.json(mserver_response);
+    }catch (e) {
+        console.log(e);
+        res.status(500).log("There was an error");
     }
 }
 
@@ -72,7 +118,7 @@ exports.reloadCodesToGroup = async (req, res) => {
         const groupId = req.body.groupId;
         var imgs = await imgsToEncodeGroup(groupId);
         const groupPath = `${process.env.RESOURCES_PATH}user_data/${req.user.user_id}/g${groupId}/`;
-        var response;
+        var mserver_response;
         const autoEncode = false;
         var dataArray = []
         
@@ -115,7 +161,7 @@ exports.reloadCodesToGroup = async (req, res) => {
                 details["updateGroupResult"] = updateGroup;
             }
 
-            response = {
+            mserver_response = {
                 "success" : true,
                 "message" : "Codes file created for group",
                 "details" : details
@@ -129,13 +175,13 @@ exports.reloadCodesToGroup = async (req, res) => {
                 // TODO: Needs to work as a internal function
                 //const encodeResponse = await encodeImages(req,res);
 
-                response = {
+                mserver_response = {
                     "success" : false,
                     "message" : "Images needed to be encoded.",
                     "data" : encodeResponse
                 }
             }else{
-                response = {
+                mserver_response = {
                     "success" : false,
                     "message" : "Images that still need to be encoded for this group",
                     "data" : imgs
@@ -143,7 +189,7 @@ exports.reloadCodesToGroup = async (req, res) => {
             }
         }
 
-        res.json(response);
+        res.json(mserver_response);
     } catch (e) {
         console.log(e);
         res.status(500).log("There was an error ");
@@ -151,6 +197,7 @@ exports.reloadCodesToGroup = async (req, res) => {
 }
 
 exports.faceDetectionStream = async (req, res) => {
+    var mserver_response;
     //TODO Work as a signaling server. Receive
     // Forming our payload for the encoding request
     var payload = JSON.stringify({ 
@@ -169,26 +216,26 @@ exports.faceDetectionStream = async (req, res) => {
 
     // Requesting to the Analytics server
     // Getting response for the signaling
-    const request_response = await axios(config).then((result) =>{
-        let request_response = result.data;
-        request_response["success"] = true;
-        return request_response;
+    const faserver_response = await axios(config).then((result) =>{
+        let faserver_response = result.data;
+        faserver_response["success"] = true;
+        return faserver_response;
 
     }).catch((error) =>{
-        const request_response = ({
+        const faserver_response = ({
             "success" : false,
             "error" : error
         });
 
-        return request_response;
+        return faserver_response;
     });
 
-    response = {
-        "sdp" : request_response.sdp,
-        "type" : request_response.type
+    mserver_response = {
+        "sdp" : faserver_response.sdp,
+        "type" : faserver_response.type
     }
 
     //console.log(response);
 
-    res.json(response);
+    res.json(mserver_response);
 }
