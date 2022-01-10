@@ -184,10 +184,11 @@ exports.faceDetectionStream = async (req, res) => {
     });
 
     response = {
-        "success" : true,
-        "message" : "img will be processed",
-        "data" : request_response
+        "sdp" : request_response.sdp,
+        "type" : request_response.type
     }
+
+    //console.log(response);
 
     res.json(response);
 }
