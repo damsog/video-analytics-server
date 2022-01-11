@@ -63,7 +63,7 @@ exports.processAnalyzeImg = async (req,res) => {
         res.json(mserver_response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ");
+        res.status(500).send("There was an error ");
     }
 }
 
@@ -192,50 +192,108 @@ exports.reloadCodesToGroup = async (req, res) => {
         res.json(mserver_response);
     } catch (e) {
         console.log(e);
-        res.status(500).log("There was an error ");
+        res.status(500).send("There was an error ");
     }
 }
 
 exports.faceDetectionStream = async (req, res) => {
-    var mserver_response;
-    //TODO Work as a signaling server. Receive
-    // Forming our payload for the encoding request
-    var payload = JSON.stringify({ 
-        "sdp" : req.body.sdp, 
-        "type" : req.body.type
-    });
-
-    // Setting configuration of the request
-    var url = `http://${process.env.FACE_ANALYTICS_SERVER}:${process.env.FACE_ANALYTICS_PORT}/facedet_stream`;
-    var config = {
-        method: 'post',
-        url: url,
-        headers: {'Content-Type':'application/json'},
-        data: payload
-    };
-
-    // Requesting to the Analytics server
-    // Getting response for the signaling
-    const faserver_response = await axios(config).then((result) =>{
-        let faserver_response = result.data;
-        faserver_response["success"] = true;
-        return faserver_response;
-
-    }).catch((error) =>{
-        const faserver_response = ({
-            "success" : false,
-            "error" : error
+    try{
+        var mserver_response;
+        //TODO Work as a signaling server. Receive
+        // Forming our payload for the encoding request
+        var payload = JSON.stringify({ 
+            "sdp" : req.body.sdp, 
+            "type" : req.body.type
         });
 
-        return faserver_response;
-    });
+        // Setting configuration of the request
+        var url = `http://${process.env.FACE_ANALYTICS_SERVER}:${process.env.FACE_ANALYTICS_PORT}/facedet_stream`;
+        var config = {
+            method: 'post',
+            url: url,
+            headers: {'Content-Type':'application/json'},
+            data: payload
+        };
 
-    mserver_response = {
-        "sdp" : faserver_response.sdp,
-        "type" : faserver_response.type
+        // Requesting to the Analytics server
+        // Getting response for the signaling
+        const faserver_response = await axios(config).then((result) =>{
+            let faserver_response = result.data;
+            faserver_response["success"] = true;
+            return faserver_response;
+
+        }).catch((error) =>{
+            const faserver_response = ({
+                "success" : false,
+                "error" : error
+            });
+
+            return faserver_response;
+        });
+
+        mserver_response = {
+            "sdp" : faserver_response.sdp,
+            "type" : faserver_response.type
+        }
+
+        //console.log(response);
+
+        res.json(mserver_response);
+    } catch (e) {
+        console.log(e);
+        res.status(500).send("There was an error ");
     }
+}
 
-    //console.log(response);
+exports.faceRecognitionStream = async (req, res) => {
+    try{
+        var mserver_response;
+        //TODO Work as a signaling server. Receive
+        // Queries to get the info about the group and get its dataset_path
+        const group_data = await getGroupByIdQ(req.body.group_id)
 
-    res.json(mserver_response);
+        // Forming our payload for the encoding request
+        var payload = JSON.stringify({ 
+            "sdp" : req.body.sdp, 
+            "type" : req.body.type,
+            "dataset_path" : group_data["data"]["dataset_route"]
+        });
+
+        // Setting configuration of the request
+        var url = `http://${process.env.FACE_ANALYTICS_SERVER}:${process.env.FACE_ANALYTICS_PORT}/facerek_stream`;
+        var config = {
+            method: 'post',
+            url: url,
+            headers: {'Content-Type':'application/json'},
+            data: payload
+        };
+
+        // Requesting to the Analytics server
+        // Getting response for the signaling
+        const faserver_response = await axios(config).then((result) =>{
+            let faserver_response = result.data;
+            faserver_response["success"] = true;
+            return faserver_response;
+
+        }).catch((error) =>{
+            const faserver_response = ({
+                "success" : false,
+                "error" : error
+            });
+
+            return faserver_response;
+        });
+
+        mserver_response = {
+            "sdp" : faserver_response.sdp,
+            "type" : faserver_response.type
+        }
+
+        //console.log(response);
+
+        res.json(mserver_response);
+    } catch (e) {
+        console.log(e);
+        res.status(500).send("There was an error ");
+    }
 }

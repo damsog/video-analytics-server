@@ -119,4 +119,6 @@ router.post('/reloadcodes', processController.reloadCodesToGroup);
 
 router.post('/facedetection/stream', processController.faceDetectionStream);
 
+router.post('/facerecognition/stream', processController.faceRecognitionStream);
+
 module.exports = router;
