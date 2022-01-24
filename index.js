@@ -12,6 +12,7 @@ require("./models/associations");
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const auth = require("./lib/auth");
+const path = require('path');
 
 // SwaggerDoc condifguration
 const swaggerOptions = {
@@ -63,6 +64,13 @@ app.use('/api/images', auth, require('./routes/imagesRoutes'));
 app.use('/api/relations', auth, require('./routes/relationsRoutes'));
 app.use('/api/process', auth, require('./routes/processesRoutes'));
 
+// Making frontend static files public
+app.use(express.static('public/dist'));
+
+// Serving frontend routes
+app.get('/*', (req, res) => { 
+    res.sendFile(path.join(__dirname, 'public/dist', 'index.html')); 
+});
 
 // Run the server
 app.listen(app.get('port'), () => {
