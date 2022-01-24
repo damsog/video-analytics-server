@@ -5,3 +5,5 @@ nohup.out
 .env
 resources/user_data/*
 !sources/user_data/.gitkeep
+public/dist/*
+!public/dist/.gitkeep
