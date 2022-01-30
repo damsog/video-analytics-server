@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
 const fs = require('fs');
+const cors = require('cors');
 require("./models/users");
 require('./models/profiles');
 require('./models/groups');
@@ -49,6 +50,7 @@ app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs)); // swag
 
 
 // Middlewares
+app.use(cors())
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json({limit: '50mb'}));
