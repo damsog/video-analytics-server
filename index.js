@@ -123,11 +123,14 @@ app.get('/*', (req, res) => {
  *                                             Running
 *************************************************************************************************/
 app.listen(app.get('port'), () => {
+
+    // Sick title
     console.log( 
         gradient.retro(
             figlet.textSync("Gnosis", figletParamsTitle)
         )
     );
+    // Cool subtitle
     console.log( 
         gradient.retro(
             figlet.textSync("Central Server", figletParamsSubtitle)
