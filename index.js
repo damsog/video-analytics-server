@@ -40,7 +40,8 @@ const chalk = require('chalk');
 //const chalkAnimation = require('chalk-animation');
 const gradient = require('gradient-string');
 const figlet = require('figlet');
-const winston = require('winston');
+const logger = require('./lib/logger');
+const colorText = require('./lib/colortext');
 
 
 /************************************************************************************************
@@ -136,6 +137,9 @@ app.listen(app.get('port'), () => {
             figlet.textSync("Central Server", figletParamsSubtitle)
         )
     );  
-    console.log("SERVER INFO: Resources folder resides on: " + process.env.RESOURCES_PATH);
-    console.log("SERVER INFO: Server running on port: ", app.get('port'));
+    logger.info( colorText( "SERVER CONFIG INFO: Resources folder resides on: " + process.env.RESOURCES_PATH) );
+    logger.info( colorText( "SERVER CONFIG INFO: Server Address : " + process.env.SERVER) );
+    logger.info( colorText( "SERVER CONFIG INFO: Server running on port: " + process.env.PORT) );
+    logger.info( colorText( "SERVER CONFIG INFO: Connecting to Face Analytics server on : " + process.env.FACE_ANALYTICS_SERVER) );
+    logger.info( colorText( "SERVER CONFIG INFO: Connecting to Face Analytics server on port :" + process.env.FACE_ANALYTICS_PORT) );
 });
