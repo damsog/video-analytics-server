@@ -12,8 +12,8 @@
 ###### Once it finishes, and the DB is configured and the .env parameter setted, just run node index.js
 ###### This will create a swagger interface on ip:port/api/api-docs
 ###### There you can see the endpoint. however, in order to handle face detection and recognition it should be
-###### Deployed with the Face Analytics https://github.com/kaiser24/Face_Recognizer_service
-###### 
+###### Deployed with the Face Analytics 
+https://github.com/kaiser24/Face_Recognizer_service
 
 source /mnt/72086E48086E0C03/Projects/Face_Recognizer_Service/face_videoanalytics_venv/bin/activate
 python /mnt/72086E48086E0C03/Projects/Face_Recognizer_Service/app.py
