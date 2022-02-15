@@ -30,6 +30,7 @@ require('./models/relations');
 require('./models/permits');
 require("./models/associations");
 const auth = require("./lib/auth");
+const customMorgan = require("./lib/customMorgan");
 
 // Documentation Dependencies
 const swaggerJsDoc = require('swagger-jsdoc');
@@ -98,7 +99,8 @@ app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs)); // swag
 
 // Middlewares Used
 app.use(cors());
-app.use(morgan('dev'));
+app.use(morgan('[:date[iso]] : : :method : : :url : : HTTP/:http-version : : :status', {"stream": logger.stream.write}));
+//app.use(customMorgan);
 app.use(express.urlencoded({extended: false}));
 app.use(express.json({limit: '50mb'}));
 
