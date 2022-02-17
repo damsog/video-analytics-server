@@ -1,4 +1,6 @@
 const { Sequelize } = require("sequelize");
+const logger = require('../lib/logger');
+const colorText = require('../lib/colortext');
 
 const sequelize = new Sequelize(
     process.env.DB_NAME,
@@ -15,15 +17,15 @@ const sequelize = new Sequelize(
 (async () => {
     try {
         await sequelize.authenticate();
-        logger.info( colorText("SERVER CONFIG INFO: Connection has been established succesfully.") );
+        logger.info( colorText("SERVER DATABASE INFO: Connection has been established succesfully.") );
     } catch (error) {
-        logger.info( colorText("SERVER CONFIG INFO: Unable to connect to the database: ", error) );
+        logger.info( colorText("SERVER DATABASE INFO: Unable to connect to the database: ", error) );
     }
 })();
 
 sequelize.sync({ force: false })
   .then(() => {
-    logger.info( colorText(`SERVER CONFIG INFO: Database & tables created!`) );
+    logger.info( colorText(`SERVER DATABASE INFO: Database & tables created!`) );
   });
 
 module.exports = sequelize;
