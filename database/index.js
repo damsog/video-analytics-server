@@ -15,15 +15,15 @@ const sequelize = new Sequelize(
 (async () => {
     try {
         await sequelize.authenticate();
-        console.log("Connection has been established succesfully.");
+        logger.info( colorText("SERVER CONFIG INFO: Connection has been established succesfully.") );
     } catch (error) {
-        console.error("Unable to connect to the database: ", error);
+        logger.info( colorText("SERVER CONFIG INFO: Unable to connect to the database: ", error) );
     }
 })();
 
 sequelize.sync({ force: false })
   .then(() => {
-    console.log(`Database & tables created!`);
+    logger.info( colorText(`SERVER CONFIG INFO: Database & tables created!`) );
   });
 
 module.exports = sequelize;

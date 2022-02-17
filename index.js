@@ -89,7 +89,7 @@ const figletParamsSubtitle = {
 // Creating some required folders to store users resources (Pictures, and groups)
 if (!fs.existsSync(process.env.RESOURCES_PATH)) {
     fs.mkdirSync(process.env.RESOURCES_PATH, { recursive: true});
-    console.log("Resource Created on: " + process.env.RESOURCES_PATH);
+    logger.info( colorText( "Resource Created on: " + process.env.RESOURCES_PATH) );
 }
 
 // General Server settigs
