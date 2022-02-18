@@ -8,6 +8,9 @@ const profiles = require('../models/profiles');
 const relations = require('../models/relations');
 require('dotenv').config()
 
+const logger = require('../lib/logger');
+const colorText = require('../lib/colortext');
+
 
 // Setting multer for uploading files. the path where files will
 // be savd to. each user has profile folders, and each profile 
@@ -33,7 +36,7 @@ const upload = multer({
 // function CreateImageRecord should be used to store the registry 
 // of the uploaded image
 exports.saveImage = (req, res, next) => {
-    console.log("Uploading image to profile " + req.params.userId);
+    logger.info("IMAGES CONTROLLER: save image to profile " + req.params.userId);
     var dir = process.env.RESOURCES_PATH + 'user_data/' + req.params.userId + '/' + req.params.profileId;
     // TODO: Check if profileId exists
     // TODO: Check if file already exists
@@ -44,10 +47,12 @@ exports.saveImage = (req, res, next) => {
             response['details'] = " Resource Just created";
         }
         upload.single('profilePicture')(req,res,next);
+        logger.info( colorText("IMAGES CONTROLLER: save image success") );
       
-        
+
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "IMAGES CONTROLLER: save image error" ) );
+        logger.error( colorText( e ) );
         res.status(500).send('Something went wrong');
     }
 
@@ -92,9 +97,12 @@ exports.createImageRecord = async (req,res, next) => {
             response["group_update_result"] = resetResult;
         }
 
+        logger.info( colorText( "IMAGES CONTROLLER: create image record success " ) );
+        logger.debug( colorText( `IMAGES CONTROLLER: create image record result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "IMAGES CONTROLLER: create image record error" ) );
+        logger.error( colorText( e ) );
         res.status(500).send('Something went wrong');
     }
 }
@@ -115,9 +123,12 @@ exports.getAllImages = async (req,res) => {
             return res;
         }) ;
 
+        logger.info( colorText( "IMAGES CONTROLLER: get all images success " ) );
+        logger.debug( colorText( `IMAGES CONTROLLER: get all images result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "IMAGES CONTROLLER: get all images error" ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ")
     }
 }
@@ -135,10 +146,14 @@ exports.getImageById = async (req,res) => {
         }).catch((error) => {
             const res = { success:false, error: error}
             return res;
-        })
+        });
+
+        logger.info( colorText( "IMAGES CONTROLLER: get image by id success " ) );
+        logger.debug( colorText( `IMAGES CONTROLLER: get image by id result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "IMAGES CONTROLLER: get image by id error" ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ")
     }
 }
@@ -163,11 +178,14 @@ exports.updateImageById = async (req,res) => {
         }).catch((error) => {
             const res = {success: false , error, error}
             return res;
-        })
+        });
 
+        logger.info( colorText( "IMAGES CONTROLLER: update image by id success " ) );
+        logger.debug( colorText( `IMAGES CONTROLLER: update image by id result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "IMAGES CONTROLLER: update image by id error" ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ")
     }
 }
@@ -189,9 +207,12 @@ exports.deleteImageById = async (req,res) => {
             return res;
         });
 
+        logger.info( colorText( "IMAGES CONTROLLER: delete image by id success " ) );
+        logger.debug( colorText( `IMAGES CONTROLLER: delete image by id result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "IMAGES CONTROLLER: delete image by id error" ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ")
     }
 }
@@ -213,10 +234,14 @@ exports.getImagesByProfileId = async (req,res) => {
         }).catch((error) => {
             const res = { success:false, error: error}
             return res;
-        })
+        });
+        
+        logger.info( colorText( "IMAGES CONTROLLER: get images by profile id success " ) );
+        logger.debug( colorText( `IMAGES CONTROLLER: get images by profile id result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "IMAGES CONTROLLER: get images by profile id error" ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ")
     }
 }
@@ -321,9 +346,12 @@ exports.encodeImages = async (req,res) => {
             });
         }
 
-        res.json( mserver_response );
+        logger.info( colorText( "IMAGES CONTROLLER: encode images success " ) );
+        logger.debug( colorText( `IMAGES CONTROLLER: encode images result: ${mserver_response}` ) );
+        res.json(mserver_response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "IMAGES CONTROLLER: encode images error" ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ");
     }
 }
@@ -351,8 +379,12 @@ exports.imgsToEncodeGroup = async (groupId) => {
             return error;
         });
 
+        logger.info( colorText( "IMAGES CONTROLLER: images to encode group success " ) );
+        logger.debug( colorText( `IMAGES CONTROLLER: images to encode group result: ${response}` ) );
         return response;
     } catch (e) {
+        logger.error( colorText( "IMAGES CONTROLLER: images to encode group error" ) );
+        logger.error( colorText( e ) );
         return e;
     }
 }
@@ -381,8 +413,12 @@ exports.getCodesForGroup = async (groupId) => {
             return error;
         });
 
+        logger.info( colorText( "IMAGES CONTROLLER: get codes for group success " ) );
+        logger.debug( colorText( `IMAGES CONTROLLER: get codes for group result: ${response}` ) );
         return response;
     } catch (e) {
+        logger.error( colorText( "IMAGES CONTROLLER: get codes for group error" ) );
+        logger.error( colorText( e ) );
         return e;
     }
 }

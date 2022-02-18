@@ -1,4 +1,6 @@
 const groups = require("../models/groups");
+const logger = require('../lib/logger');
+const colorText = require('../lib/colortext');
 
 // Controller to create a new group
 exports.createGroup = async (req,res) => {
@@ -19,9 +21,12 @@ exports.createGroup = async (req,res) => {
             const res = { success: false, error:error}
         });
 
+        logger.info( colorText( "GROUPS CONTROLLER: create group success " ) );
+        logger.debug( colorText( `GROUPS CONTROLLER: create group result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "GROUPS CONTROLLER: create group error" ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There as an error");
     }
 }
@@ -42,9 +47,12 @@ exports.getAllGroups = async (req,res) => {
             return res;
         }) ;
 
+        logger.info( colorText( "GROUPS CONTROLLER: get all groups success " ) );
+        logger.debug( colorText( `GROUPS CONTROLLER: get all groups result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "GROUPS CONTROLLER: get all groups error" ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ")
     }
 }
@@ -63,10 +71,14 @@ exports.getGroupById = async (req,res) => {
         }).catch((error) => {
             const res = { success:false, error: error}
             return res;
-        })
+        });
+
+        logger.info( colorText( "GROUPS CONTROLLER: get group by id success " ) );
+        logger.debug( colorText( `GROUPS CONTROLLER: get group by id result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "GROUPS CONTROLLER: get group by id error" ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ")
     }
 }
@@ -92,11 +104,14 @@ exports.updateGroupById = async (req,res) => {
         }).catch((error) => {
             const res = {success: false , error, error}
             return res;
-        })
+        });
 
+        logger.info( colorText( "GROUPS CONTROLLER: update group by id success" ) );
+        logger.debug( colorText( `GROUPS CONTROLLER: update group by id result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "GROUPS CONTROLLER: update group by id error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ")
     }
 }
@@ -118,9 +133,12 @@ exports.deleteGroupById = async (req,res) => {
             return res;
         });
 
+        logger.info( colorText( "GROUPS CONTROLLER: delete group by id success " ) );
+        logger.debug( colorText( `GROUPS CONTROLLER: delete group by id result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "GROUPS CONTROLLER: delete group by id error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ")
     }
 }
@@ -142,10 +160,14 @@ exports.getGroupsByUserId = async (req,res) => {
         }).catch((error) => {
             const res = { success:false, error: error}
             return res;
-        })
+        });
+
+        logger.info( colorText( "GROUPS CONTROLLER: get groups by userid success " ) );
+        logger.debug( colorText( `GROUPS CONTROLLER: get groups by userid result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "GROUPS CONTROLLER: get groups by userid error" ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ")
     }
 }
@@ -169,10 +191,14 @@ exports.updateGroupByIdQ = async (name, dataset_route, userId, groupId) => {
         }).catch((error) => {
             const res = {success: false , error, error}
             return res;
-        })
+        });
 
+        logger.info( colorText( "GROUPS CONTROLLER: update group by id query success" ) );
+        logger.debug( colorText( `GROUPS CONTROLLER: update group by id query result: ${response}` ) );
         return response;
     } catch (e) {
+        logger.error( colorText( "GROUPS CONTROLLER: update group by id query error " ) );
+        logger.error( colorText( e ) );
         return e;
     }
 }
@@ -190,9 +216,14 @@ exports.getGroupByIdQ = async (groupId) => {
         }).catch((error) => {
             const res = { success:false, error: error}
             return res;
-        })
+        });
+
+        logger.info( colorText( "GROUPS CONTROLLER: get group by id query success " ) );
+        logger.debug( colorText( `GROUPS CONTROLLER: get group by id query result: ${response}` ) );
         return response;
     } catch (e) {
+        logger.error( colorText( "GROUPS CONTROLLER: get group by id query error " ) );
+        logger.error( colorText( e ) );
         return e;
     }
 }
