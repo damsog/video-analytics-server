@@ -8,12 +8,9 @@ const processController = require('../controllers/processController');
  * /api/process/analyzeimg:
  *  post:
  *      summary: Rquests to reload codes of a group and save them to a file
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Process]
- *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      requestBody:
  *          required: true
  *          content: 
@@ -51,12 +48,9 @@ router.post('/analyzeimg', processController.processAnalyzeImg);
  * /api/process/detectimg:
  *  post:
  *      summary: Rquests to reload codes of a group and save them to a file
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Process]
- *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      requestBody:
  *          required: true
  *          content: 
@@ -88,12 +82,9 @@ router.post('/detectimg', processController.processDetectImg);
  * /api/process/reloadcodes:
  *  post:
  *      summary: Rquests to reload codes of a group and save them to a file
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Process]
- *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      requestBody:
  *          required: true
  *          content: 

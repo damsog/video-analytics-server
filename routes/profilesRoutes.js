@@ -9,12 +9,9 @@ const relationsController = require("../controllers/relationsController");
  * /api/profiles:
  *  post:
  *      summary: Create a new profile associating it with a user
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Profiles]
- *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      requestBody:
  *          required: true
  *          content: 
@@ -39,12 +36,9 @@ router.post('/', profilesController.createProfile);
  * /api/profiles:
  *  get:
  *      summary: Return all profiles
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Profiles]
- *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      responses:
  *          200:
  *              description: list of all profiles
@@ -63,12 +57,10 @@ router.get('/', profilesController.getAllProfiles);
  * /api/profiles/{id}:
  *  get:
  *      summary: Return a profile given its id
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Profiles]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -93,12 +85,10 @@ router.get('/:id', profilesController.getProfileById);
  * /api/profiles/{id}:
  *  put:
  *      summary: Updates profile info
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Profiles]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -129,12 +119,10 @@ router.put('/:id', profilesController.updateProfileById);
  * /api/profiles/{id}:
  *  delete:
  *      summary: Deletes a profile given an id
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Profiles]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -159,12 +147,10 @@ router.delete('/:id', profilesController.deleteProfileById);
  * /api/profiles/byuId/{userId}:
  *  get:
  *      summary: Return all profiles for a user
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Profiles]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: userId
  *              schema:
@@ -189,12 +175,10 @@ router.get('/byuId/:userId', profilesController.getProfilesByUserId);
  * /api/profiles/bygId/{groupId}:
  *  get:
  *      summary: Returns all the profiles that a group contains
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Profiles]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string 
  *          -   in: path
  *              name: groupId
  *              schema:

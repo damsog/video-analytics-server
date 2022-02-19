@@ -9,12 +9,9 @@ const relationsController = require("../controllers/relationsController");
  * /api/groups:
  *  post:
  *      summary: Create a new group associating it with a user
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Groups]
- *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      requestBody:
  *          required: true
  *          content: 
@@ -39,12 +36,9 @@ router.post('/', groupsController.createGroup);
  * /api/groups:
  *  get:
  *      summary: Returns all groups
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Groups]
- *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      responses:
  *          200:
  *              description: list of every group
@@ -63,12 +57,10 @@ router.get('/', groupsController.getAllGroups);
  * /api/groups/{id}:
  *  get:
  *      summary: Return a group given its id
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Groups]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -93,12 +85,10 @@ router.get('/:id', groupsController.getGroupById);
  * /api/groups/{id}:
  *  put:
  *      summary: Updates group info
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Groups]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -129,12 +119,10 @@ router.put('/:id', groupsController.updateGroupById);
  * /api/groups/{id}:
  *  delete:
  *      summary: Deletes a group given an id
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Groups]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -159,12 +147,10 @@ router.delete('/:id', groupsController.deleteGroupById);
  * /api/groups/byuId/{userId}:
  *  get:
  *      summary: Return all groups for a user
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Groups]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: userId
  *              schema:
@@ -189,12 +175,10 @@ router.get('/byuId/:userId', groupsController.getGroupsByUserId);
  * /api/groups/bypId/{profileId}:
  *  get:
  *      summary: Returns all the groups a profile belongs to
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Groups]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: profileId
  *              schema:

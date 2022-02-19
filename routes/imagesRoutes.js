@@ -9,12 +9,10 @@ const imagesController = require('../controllers/imagesController');
  * /api/images/{userId}/{profileId}:
  *  post:
  *      summary: Create a new Image associated to a profile
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Images]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: userId
  *              schema:
@@ -54,12 +52,10 @@ router.post('/:userId/:profileId', imagesController.saveImage, imagesController.
  * /api/images:
  *  get:
  *      summary: Returns all images
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Images]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      responses:
  *          200:
  *              description: list of every single image
@@ -78,12 +74,10 @@ router.get('/', imagesController.getAllImages);
  * /api/images/{id}:
  *  get:
  *      summary: Return an image given its id
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Images]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -108,12 +102,10 @@ router.get('/:id', imagesController.getImageById);
  * /api/images/{id}:
  *  put:
  *      summary: Updates coder info
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Images]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -144,12 +136,10 @@ router.put('/:id', imagesController.updateImageById);
  * /api/images/{id}:
  *  delete:
  *      summary: Deletes an image given an id
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Images]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -174,12 +164,10 @@ router.delete('/:id', imagesController.deleteImageById);
  * /api/images/bypId/{profileId}:
  *  get:
  *      summary: Return all images for a profile
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Images]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: profileId
  *              schema:
@@ -204,12 +192,10 @@ router.get('/bypId/:profileId', imagesController.getImagesByProfileId);
  * /api/images/encode:
  *  post:
  *      summary: Requests saved Images to be encoded
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Images]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      requestBody:
  *          required: true
  *          content: 

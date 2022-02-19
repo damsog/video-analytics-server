@@ -7,12 +7,9 @@ const relationsController = require("../controllers/relationsController");
  * /api/relations:
  *  post:
  *      summary: Create a new group-profile association
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Relations]
- *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      requestBody:
  *          required: true
  *          content: 
@@ -37,12 +34,9 @@ router.post('/', relationsController.createRelation);
  * /api/relations:
  *  delete:
  *      summary: Deletes a group-profile relation
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Relations]
- *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      requestBody:
  *          required: true
  *          content: 

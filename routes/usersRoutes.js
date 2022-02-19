@@ -9,12 +9,9 @@ const usersController = require('../controllers/usersController');
  * /api/users:
  *  get:
  *      summary: Return all users
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Users]
- *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      responses:
  *          200:
  *              description: list of all users
@@ -33,12 +30,10 @@ router.get('/', usersController.getAllUsers);
  * /api/users/{id}:
  *  get:
  *      summary: Return user by id
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Users]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -63,12 +58,9 @@ router.get('/:id', usersController.getUserById);
  * /api/users:
  *  post:
  *      summary: Create a new user
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Users]
- *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *      requestBody:
  *          required: true
  *          content: 
@@ -93,12 +85,10 @@ router.post('/', usersController.createUser);
  * /api/users/{id}:
  *  put:
  *      summary: Updates user
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Users]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
@@ -129,12 +119,10 @@ router.put('/:id', usersController.updateUserById);
  * /api/users/{id}:
  *  delete:
  *      summary: Deletes a user by id
+ *      security:
+ *          - bearerAuth: []
  *      tags: [Users]
  *      parameters:
- *          -   in: header
- *              name: x-access-token
- *              schema:
- *                  type: string
  *          -   in: path
  *              name: id
  *              schema:
