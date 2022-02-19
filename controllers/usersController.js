@@ -18,7 +18,7 @@ exports.createUser = async (req,res) => {
         // Validates if the username is aleady in use
         const olduser = await users.findOne({where: {username: username }});
         if (olduser) {
-            return res.status(409).send("Username is already in use");
+            return res.status(409).send("Username is already in use ");
         }
 
         // Encrypting password
@@ -88,10 +88,10 @@ exports.getAccess = async (req,res) => {
             // Adds token to the response
             user.dataValues.token = token;
 
-            logger.error( colorText( "USER CONTROLLER: login success " ) );
+            logger.info( colorText( "USER CONTROLLER: login success " ) );
             res.status(200).json(user);
         }else{
-            logger.error( colorText( "USER CONTROLLER: login error wrong credentials " ) );
+            logger.info( colorText( "USER CONTROLLER: login error wrong credentials " ) );
             res.status(400).send("Invalid Credentials");
         }
     } catch (e) {
