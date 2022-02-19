@@ -52,7 +52,7 @@ const colorText = require('./lib/colortext');
 // Swagger Documentation confifguration
 const swaggerOptions = {
     definition: {
-        openapi: "3.0.0",
+        openapi: "3.0.1",
         info: {
             title: 'Platform API',
             version: "1.0.0",
@@ -60,11 +60,23 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: "http://localhost:4000"
+                url: `http://localhost:${process.env.PORT}`
            }
-        ]
+        ],
+        basePath: '/',
+        components: {
+            securitySchemes: {
+                bearerAuth:{
+                    type: "http",
+                    scheme: "",
+                    in: "header",
+                    bearerFormat: "JWT"
+                },
+            }
+        },
+        security: [ { bearerAuth: [] } ],
     },
-    apis: ["./routes/*.js"]
+    apis: ["./routes/*.js"],
 }
 // Swagger Documentation initialization
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
