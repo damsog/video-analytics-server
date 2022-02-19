@@ -2,6 +2,9 @@ const utils = require("../lib/utils");
 const users = require("../models/users");
 const jwt = require('jsonwebtoken');
 
+const logger = require('../lib/logger');
+const colorText = require('../lib/colortext');
+
 // controller to create a new user
 exports.createUser = async (req,res) => {
     try {
@@ -50,9 +53,12 @@ exports.createUser = async (req,res) => {
         );
         response.token = token;
 
+        logger.info( colorText( "USER CONTROLLER: create user success" ) );
+        logger.debug( colorText( `USER CONTROLLER: create user result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "USER CONTROLLER: create user error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error");
     }
 }
@@ -82,13 +88,15 @@ exports.getAccess = async (req,res) => {
             // Adds token to the response
             user.dataValues.token = token;
 
+            logger.error( colorText( "USER CONTROLLER: login success " ) );
             res.status(200).json(user);
-
         }else{
+            logger.error( colorText( "USER CONTROLLER: login error wrong credentials " ) );
             res.status(400).send("Invalid Credentials");
         }
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "USER CONTROLLER: login error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error");
     }
 }
@@ -108,9 +116,12 @@ exports.getAllUsers = async (req, res) => {
             return res;
         });
         
+        logger.info( colorText( "USER CONTROLLER: get all users success" ) );
+        logger.debug( colorText( `USER CONTROLLER: get all users result: ${allusers}` ) );
         res.json(allusers);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "USER CONTROLLER: get all users error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error getting user information");
     }
 }
@@ -130,9 +141,12 @@ exports.getUserById = async (req,res) => {
             return res;
         });
 
+        logger.info( colorText( "USER CONTROLLER: get user by id success" ) );
+        logger.debug( colorText( `USER CONTROLLER: get user by id result: ${user}` ) );
         res.json(user);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "USER CONTROLLER: get user by id error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error getting user information");
     }
 }
@@ -162,9 +176,12 @@ exports.updateUserById = async (req, res) => {
             return res;
         });
         
+        logger.info( colorText( "USER CONTROLLER: update user by id success" ) );
+        logger.debug( colorText( `USER CONTROLLER: update user by id result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "USER CONTROLLER: update user by id error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error getting user information");
     }
 }
@@ -186,9 +203,12 @@ exports.deleteUserById = async (req,res) => {
             return res;
         })
 
+        logger.info( colorText( "USER CONTROLLER: delete user by id success" ) );
+        logger.debug( colorText( `USER CONTROLLER: delete user by id result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "USER CONTROLLER: delete user by id error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error getting user information");
     }
 }

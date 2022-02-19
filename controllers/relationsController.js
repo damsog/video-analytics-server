@@ -1,5 +1,8 @@
 const relations = require('../models/relations');
 
+const logger = require('../lib/logger');
+const colorText = require('../lib/colortext');
+
 // Controller to create an association group profile
 exports.createRelation = async (req,res) => {
     try {
@@ -19,9 +22,12 @@ exports.createRelation = async (req,res) => {
             return res
         });
         
+        logger.info( colorText( "RELATIONS CONTROLLER: create relation success" ) );
+        logger.debug( colorText( `RELATIONS CONTROLLER: create relation result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "RELATIONS CONTROLLER: create relation error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error");                
     }
 }
@@ -43,9 +49,12 @@ exports.getProfilesByGroup = async (req,res) => {
             const res = { success: false, error: error }
         });
 
-        res.json(response)
+        logger.info( colorText( "RELATIONS CONTROLLER: get profiles by group success" ) );
+        logger.debug( colorText( `RELATIONS CONTROLLER: get profiles by group result: ${response}` ) );
+        res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "RELATIONS CONTROLLER: get profiles by group error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error");        
     }
 }
@@ -67,9 +76,12 @@ exports.getGroupsByProfile = async (req,res) => {
             const res = { success: false, error: error }
         });
 
-        res.json(response)
+        logger.info( colorText( "RELATIONS CONTROLLER: get groups by profile success" ) );
+        logger.debug( colorText( `RELATIONS CONTROLLER: get groups by profile result: ${response}` ) );
+        res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "RELATIONS CONTROLLER: get groups by profile error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error");        
     }
 }
@@ -94,9 +106,12 @@ exports.deleteRelation = async (req,res) => {
             const res = { success: false, error: error }
         });
         
+        logger.info( colorText( "RELATIONS CONTROLLER: delete relation success" ) );
+        logger.debug( colorText( `RELATIONS CONTROLLER: delete relation result: ${response}` ) );
         res.json(response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "RELATIONS CONTROLLER: delete relation error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error");                
     }
 }
@@ -114,9 +129,12 @@ exports.resetCodeAdded = async (profileId) => {
             return error;
         });
 
+        logger.info( colorText( "RELATIONS CONTROLLER: reset code added success" ) );
+        logger.debug( colorText( `RELATIONS CONTROLLER: reset code added result: ${response}` ) );
         return response;
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "RELATIONS CONTROLLER: reset code added error " ) );
+        logger.error( colorText( e ) );
         return e;
     }
 }
@@ -134,9 +152,12 @@ exports.setCodesAdded = async (groupId) => {
             return error;
         });
 
+        logger.info( colorText( "RELATIONS CONTROLLER: set codes added success" ) );
+        logger.debug( colorText( `RELATIONS CONTROLLER: set codes added result: ${response}` ) );
         return response;
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "RELATIONS CONTROLLER: set codes added error " ) );
+        logger.error( colorText( e ) );
         return e;
     }
 }
@@ -155,9 +176,12 @@ exports.countCodesAddToGroup = async (groupId) => {
             return error;
         });
 
+        logger.info( colorText( "RELATIONS CONTROLLER: count codes to add to group success" ) );
+        logger.debug( colorText( `RELATIONS CONTROLLER: count codes to add to group result: ${response}` ) );
         return response;
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "RELATIONS CONTROLLER: count codes to add to group error " ) );
+        logger.error( colorText( e ) );
         return e;
     }
 }

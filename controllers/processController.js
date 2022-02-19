@@ -4,6 +4,9 @@ const { getGroupByIdQ, updateGroupByIdQ } = require('./groupsController');
 const fs = require('fs');
 const axios = require('axios');
 
+const logger = require('../lib/logger');
+const colorText = require('../lib/colortext');
+
 exports.processAnalyzeImg = async (req,res) => {
     try {
         const countCodesToAdd = await countCodesAddToGroup(req.body.groupId);
@@ -60,9 +63,13 @@ exports.processAnalyzeImg = async (req,res) => {
             }
         }
 
+        
+        logger.info( colorText( "PROCESS CONTROLLER: porcess analyze image success" ) );
+        logger.debug( colorText( `PROCESS CONTROLLER: porcess analyze image result: ${mserver_response}` ) );
         res.json(mserver_response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "GROUPS CONTROLLER: porcess analyze image error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ");
     }
 }
@@ -106,9 +113,12 @@ exports.processDetectImg = async (req,res) => {
             "faserver_response" : faserver_response
         }
         
+        logger.info( colorText( "PROCESS CONTROLLER: process detect image success" ) );
+        logger.debug( colorText( `PROCESS CONTROLLER: process detect image result: ${mserver_response}` ) );
         res.json(mserver_response);
-    }catch (e) {
-        console.log(e);
+    } catch (e) {
+        logger.error( colorText( "GROUPS CONTROLLER: process detect image error " ) );
+        logger.error( colorText( e ) );
         res.status(500).log("There was an error");
     }
 }
@@ -189,9 +199,12 @@ exports.reloadCodesToGroup = async (req, res) => {
             }
         }
 
+        logger.info( colorText( "PROCESS CONTROLLER: reload codes success" ) );
+        logger.debug( colorText( `PROCESS CONTROLLER: reload codes result: ${mserver_response}` ) );
         res.json(mserver_response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "GROUPS CONTROLLER: reload codes error " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ");
     }
 }
@@ -238,9 +251,12 @@ exports.faceDetectionStream = async (req, res) => {
 
         //console.log(response);
 
+        logger.info( colorText( "PROCESS CONTROLLER: face detection stream success" ) );
+        logger.debug( colorText( `PROCESS CONTROLLER: face detection stream result: ${mserver_response}` ) );
         res.json(mserver_response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "GROUPS CONTROLLER: face detection stream stream " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ");
     }
 }
@@ -291,9 +307,12 @@ exports.faceRecognitionStream = async (req, res) => {
 
         //console.log(response);
 
+        logger.info( colorText( "PROCESS CONTROLLER: face recognition stream  success" ) );
+        logger.debug( colorText( `PROCESS CONTROLLER: face recognition stream  result: ${mserver_response}` ) );
         res.json(mserver_response);
     } catch (e) {
-        console.log(e);
+        logger.error( colorText( "GROUPS CONTROLLER: face recognition stream  " ) );
+        logger.error( colorText( e ) );
         res.status(500).send("There was an error ");
     }
 }
