@@ -1,0 +1,23 @@
+version: '3.3'
+services:
+  mysqldb:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=videoanalytics
+      - MYSQL_ROOT_PASSWORD=adminpass
+    ports:
+      - 3306:3306
+    volumes:
+      - db:/var/lib/mysql
+      - ./dbinit.sql:/docker-entrypoint-initdb.d/init.sql
+  app:
+    depends_on:
+      - mysqldb
+    build: .
+    restart: unless-stopped
+    ports:
+      - 4000:4000
+
+volumes:
+  db:
