@@ -3,11 +3,12 @@ services:
   mysqldb:
     image: mysql:8.0
     restart: unless-stopped
+    env_file: ./.env
     environment:
       - MYSQL_DATABASE=videoanalytics
       - MYSQL_ROOT_PASSWORD=adminpass
     ports:
-      - 3306:3306
+      - 3307:3306
     volumes:
       - db:/var/lib/mysql
       - ./dbinit.sql:/docker-entrypoint-initdb.d/init.sql
@@ -16,6 +17,7 @@ services:
       - mysqldb
     build: .
     restart: unless-stopped
+    env_file: ./.env
     ports:
       - 4000:4000
 
