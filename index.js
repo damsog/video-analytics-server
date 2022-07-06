@@ -116,7 +116,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json({limit: '50mb'}));
 
 // Routes
-app.use('/api/login', require('./routes/login'));
+app.use('/api/access', require('./routes/accessRoutes'));
 app.use('/api/users', auth, require('./routes/usersRoutes'));
 app.use('/api/profiles', auth, require('./routes/profilesRoutes'));
 app.use('/api/groups', auth, require('./routes/groupsRoutes'));

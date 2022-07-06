@@ -55,33 +55,6 @@ router.get('/:id', usersController.getUserById);
 
 /**
  * @swagger
- * /api/users:
- *  post:
- *      summary: Create a new user
- *      security:
- *          - bearerAuth: []
- *      tags: [Users]
- *      requestBody:
- *          required: true
- *          content: 
- *              application/json:
- *                  schema:
- *                      $ref: '#/components/schemas/user'
- *      responses:
- *          200:
- *              description: list of all users
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: array
- *                          items:
- *                              $ref: '#/components/schemas/user'
- *                                
- */
-router.post('/', usersController.createUser);
-
-/**
- * @swagger
  * /api/users/{id}:
  *  put:
  *      summary: Updates user
