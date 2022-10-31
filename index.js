@@ -20,6 +20,8 @@ const morgan = require('morgan');
 const fs = require('fs');
 const cors = require('cors');
 const path = require('path');
+const http = require('http');
+const https = require('https');
 
 // Models, Personal Libraries & Services
 require("./models/users");
@@ -132,11 +134,15 @@ app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/dist', 'index.html')); 
 });
 
+const options = {
+    key: fs.readFileSync("./cert/client-key.pem"),
+    cert: fs.readFileSync("./cert/client-cert.pem")
+}
 
 /************************************************************************************************
  *                                             Running
 *************************************************************************************************/
-app.listen(app.get('port'), () => {
+https.createServer(options, app).listen(app.get('port'), () => {
 
     // Sick title
     console.log( 
