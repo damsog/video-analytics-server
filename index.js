@@ -62,8 +62,8 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: `http://localhost:${process.env.PORT}`
-           }
+                url: `https://localhost:${process.env.PORT}`
+           },
         ],
         components: {
             securitySchemes: {
@@ -135,8 +135,8 @@ app.get('/*', (req, res) => {
 });
 
 const options = {
-    key: fs.readFileSync("./cert/client-key.pem"),
-    cert: fs.readFileSync("./cert/client-cert.pem")
+    key: fs.readFileSync(process.env.SSL_KEY),
+    cert: fs.readFileSync(process.env.SSL_CERT)
 }
 
 /************************************************************************************************
