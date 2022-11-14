@@ -62,7 +62,8 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: `https://localhost:${process.env.PORT}`
+                url: `https://localhost:${process.env.PORT_SWAGGER}`,
+                url: `https://${process.env.SERVER}:${process.env.PORT_SWAGGER}`
            },
         ],
         components: {
@@ -160,5 +161,5 @@ https.createServer(options, app).listen(app.get('port'), () => {
     logger.info( colorText( "SERVER CONFIG INFO: Server Address : " + process.env.SERVER) );
     logger.info( colorText( "SERVER CONFIG INFO: Server running on port: " + process.env.PORT) );
     logger.info( colorText( "SERVER CONFIG INFO: Connecting to Face Analytics server on : " + process.env.FACE_ANALYTICS_SERVER) );
-    logger.info( colorText( "SERVER CONFIG INFO: Connecting to Face Analytics server on port :" + process.env.FACE_ANALYTICS_PORT) );
+    logger.info( colorText( "SERVER CONFIG INFO: Connecting to Face Analytics server on port : " + process.env.FACE_ANALYTICS_PORT) );
 });
