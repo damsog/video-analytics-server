@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  mysqldb:
+    image: mysql:8.0
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+    ports:
+      - 3307:3306
+    volumes:
+      - db:/var/lib/mysql
+      - ./dbinit.sql:/docker-entrypoint-initdb.d/init.sql
+  app:
+    depends_on:
+      - mysqldb
+    image: laguzs/gnosis_main_service:1.0
+    build: .
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - ./certificates:/app/certificates
+      - ./resources:/app/resources
+
+volumes:
+  db:
